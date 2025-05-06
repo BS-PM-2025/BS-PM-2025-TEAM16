@@ -175,8 +175,25 @@
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
+  margin-inline-start: 10px;
 }
 
 .approve-button:hover {
   background-color: #033366;
+}
+
+.reject-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff0303;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-inline-start: 10px;
+  font-weight: bold;
+}
+
+.reject-button:hover {
+  background-color: #ac0a0a;
 }

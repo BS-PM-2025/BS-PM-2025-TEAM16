@@ -54,6 +54,23 @@ const Staff = () => {
       .catch(() => alert("שגיאה באישור הבקשה"));
   };
 
+  const handleReject = (id) => {
+    axios
+      .put(`http://localhost:3006/api/staff/requests/reject/${id}`)
+      .then(() => {
+        alert("הבקשה נדחתה");
+        setRequests((prevRequests) =>
+          prevRequests.map((req) =>
+            req._id === id ? { ...req, status: "נדחה" } : req
+          )
+        );
+        setSelectedRequest((prev) =>
+          prev ? { ...prev, status: "נדחה" } : prev
+        );
+      })
+      .catch(() => alert("שגיאה בדחיית הבקשה"));
+  };
+
   return (
     <div className="welcome" dir="rtl">
       <div className="welcome-page-container">
@@ -156,6 +173,12 @@ const Staff = () => {
               onClick={() => handleApprove(selectedRequest._id)}
             >
               אישור
+            </button>
+            <button
+              className="reject-button"
+              onClick={() => handleReject(selectedRequest._id)}
+            >
+              דחה
             </button>
             <button
               className="close-button"
