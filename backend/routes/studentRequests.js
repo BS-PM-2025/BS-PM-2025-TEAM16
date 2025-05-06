@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   getRequestsForStaff,
   approveRequest,
+  rejectRequest,
 } = require("../controllers/studentRequestsController");
 
 const isStaff = (req, res, next) => {
@@ -57,5 +58,6 @@ router.get("/department-requests", async (req, res) => {
 });
 
 router.put("/approve/:id", approveRequest);
+router.put("/reject/:id", rejectRequest);
 
 module.exports = router;
