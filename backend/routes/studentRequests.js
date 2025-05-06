@@ -1,7 +1,9 @@
 const express = require("express");
+const StudentRequest = require("../models/StudentRequest");
 const router = express.Router();
 const {
   getRequestsForStaff,
+  approveRequest,
 } = require("../controllers/studentRequestsController");
 
 const isStaff = (req, res, next) => {
@@ -37,8 +39,6 @@ router.get("/department-requests", async (req, res) => {
   }
 
   try {
-    const StudentRequest = require("../models/StudentRequest");
-
     const requests = await StudentRequest.find()
       .populate("student")
       .populate("staff")
@@ -55,5 +55,7 @@ router.get("/department-requests", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+router.put("/approve/:id", approveRequest);
 
 module.exports = router;
