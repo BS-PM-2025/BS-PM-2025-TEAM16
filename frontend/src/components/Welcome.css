@@ -4,8 +4,8 @@
 
 .welcome {
   min-height: 100vh;
-  background: linear-gradient(135deg, #A5DD9B, #51829B);
-  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #a5dd9b, #51829b);
+  font-family: "Poppins", sans-serif;
   padding: 60px 40px 100px;
   display: flex;
   justify-content: center;
@@ -57,7 +57,7 @@
   color: white;
   text-align: center;
   width: 100%;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   max-width: 800px;
   margin: 0 auto;
   direction: rtl;
@@ -109,7 +109,7 @@
 
 .requests-box th,
 .requests-box td {
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 10px;
   text-align: right;
 }
@@ -150,7 +150,7 @@
   margin: 6px 0;
 }
 
-.request-details-box button {
+.close-button {
   margin-top: 20px;
   padding: 10px 20px;
   background-color: #ffffff22;
@@ -159,8 +159,24 @@
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
+  margin-right: 10px;
 }
 
-.request-details-box button:hover {
+.close-button:hover {
   background-color: #ffffff33;
+}
+
+.approve-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #005dc0;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.approve-button:hover {
+  background-color: #033366;
 }
