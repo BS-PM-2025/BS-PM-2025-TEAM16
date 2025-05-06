@@ -25,6 +25,25 @@ const getRequestsForStaff = async (req, res) => {
   }
 };
 
+const approveRequest = async (req, res) => {
+  try {
+    const request = await StudentRequest.findByIdAndUpdate(
+      req.params.id,
+      { status: "אושר" },
+      { new: true }
+    );
+
+    if (!request) {
+      return res.status(404).send({ message: "Request not found" });
+    }
+
+    res.status(200).send(request);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
 module.exports = {
   getRequestsForStaff,
+  approveRequest,
 };
