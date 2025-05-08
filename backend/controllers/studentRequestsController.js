@@ -61,8 +61,34 @@ const rejectRequest = async (req, res) => {
   }
 };
 
+const getRequestsForStaffByStatus = async (req, res) => {
+  try {
+    const { staffUsername, status } = req.query;
+
+    const staffUser = await User.findOne({ username: staffUsername });
+
+    if (!staffUser) {
+      return res.status(404).json({ message: "Staff not found" });
+    }
+
+    const requests = await StudentRequest.find({
+      staff: staffUser._id,
+      status: status,
+    })
+      .populate("student", "firstname lastname id department")
+      .populate("staff", "firstname lastname")
+      .populate("requestType", "name")
+      .populate("course", "name");
+
+    res.json(requests);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 module.exports = {
   getRequestsForStaff,
   approveRequest,
   rejectRequest,
+  getRequestsForStaffByStatus,
 };
