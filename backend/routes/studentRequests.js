@@ -5,6 +5,7 @@ const {
   getRequestsForStaff,
   approveRequest,
   rejectRequest,
+  getRequestsForStaffByStatus,
 } = require("../controllers/studentRequestsController");
 
 const isStaff = (req, res, next) => {
@@ -59,5 +60,6 @@ router.get("/department-requests", async (req, res) => {
 
 router.put("/approve/:id", approveRequest);
 router.put("/reject/:id", rejectRequest);
+router.get("/by-status-and-staff", getRequestsForStaffByStatus);
 
 module.exports = router;
