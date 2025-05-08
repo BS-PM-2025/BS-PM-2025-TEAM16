@@ -197,3 +197,33 @@
 .reject-button:hover {
   background-color: #ac0a0a;
 }
+
+.status-container {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.status-label {
+  color: white;
+  font-weight: bold;
+}
+
+.status-select {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid #ffffff55;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.status-select option {
+  background-color: #51829b;
+  color: white;
+}
