@@ -57,3 +57,17 @@ describe("Services", () => {
     });
   });
 });
+
+describe("Simple unit tests for request status", () => {
+  const baseRequest = { _id: "123", status: "ממתין" };
+
+  test("should update status to approved", () => {
+    const updated = services.approveRequestStatus(baseRequest);
+    expect(updated.status).toBe("אושר");
+  });
+
+  test("should update status to rejected", () => {
+    const updated = services.rejectRequestStatus(baseRequest);
+    expect(updated.status).toBe("נדחה");
+  });
+});
