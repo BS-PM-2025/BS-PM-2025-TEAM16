@@ -9,6 +9,7 @@ const Staff = () => {
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("ממתין");
 
   useEffect(() => {
     const data = getFromLocalStorage("projectFS");
@@ -17,7 +18,7 @@ const Staff = () => {
     if (data?.user?.username) {
       axios
         .get(
-          `http://localhost:3006/api/staff/requests?staffUsername=${data.user.username}`,
+          `http://localhost:3006/api/staff/requests/by-status-and-staff?staffUsername=${data.user.username}&status=${statusFilter}`,
           {
             headers: {
               "user-role": "Staff",
@@ -35,7 +36,7 @@ const Staff = () => {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [statusFilter]);
 
   const handleApprove = (id) => {
     axios
@@ -85,6 +86,22 @@ const Staff = () => {
         <div className="requests-box">
           <h3>בקשות סטודנטים לטיפולך:</h3>
 
+          <div className="status-container">
+            <label htmlFor="status-select" className="status-label">
+              סינון לפי סטטוס:
+            </label>
+            <select
+              id="status-select"
+              className="status-select"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="ממתין">ממתין</option>
+              <option value="אושר">אושר</option>
+              <option value="נדחה">נדחה</option>
+            </select>
+          </div>
+
           {isLoading ? (
             <p>...טוען בקשות</p>
           ) : (
@@ -102,7 +119,7 @@ const Staff = () => {
               <tbody>
                 {requests.length === 0 ? (
                   <tr>
-                    <td colSpan="6">לא קיימות בקשות הממתינות לטיפולך</td>
+                    <td colSpan="6">לא קיימות בקשות בסטטוס {statusFilter}</td>
                   </tr>
                 ) : (
                   requests.map((req) =>
