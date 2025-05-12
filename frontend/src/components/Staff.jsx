@@ -10,15 +10,22 @@ const Staff = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [statusFilter, setStatusFilter] = useState("ממתין");
-
+  const [studentIdFilter, setStudentIdFilter] = useState("");
   useEffect(() => {
     const data = getFromLocalStorage("projectFS");
     setUserData(data);
 
     if (data?.user?.username) {
+      let url = `http://localhost:3006/api/staff/requests/by-status-and-staff?staffUsername=${data.user.username}&status=${statusFilter}`;
+
+      if (studentIdFilter) {
+        url = `http://localhost:3006/api/staff/requests/by-student-id?studentId=${studentIdFilter}`;
+      }
+
       axios
         .get(
-          `http://localhost:3006/api/staff/requests/by-status-and-staff?staffUsername=${data.user.username}&status=${statusFilter}`,
+          url,
+
           {
             headers: {
               "user-role": "Staff",
@@ -36,7 +43,7 @@ const Staff = () => {
     } else {
       setIsLoading(false);
     }
-  }, [statusFilter]);
+  }, [statusFilter, studentIdFilter]);
 
   const handleApprove = (id) => {
     axios
@@ -95,11 +102,23 @@ const Staff = () => {
               className="status-select"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
+              disabled={studentIdFilter !== ""}
             >
               <option value="ממתין">ממתין</option>
               <option value="אושר">אושר</option>
               <option value="נדחה">נדחה</option>
             </select>
+            <label htmlFor="student-id-input" className="status-label">
+              הזן תעודת זהות לסינון:
+            </label>
+            <input
+              id="student-id-input"
+              type="text"
+              placeholder="הקלד ת.ז של סטודנט"
+              className="id-input"
+              value={studentIdFilter}
+              onChange={(e) => setStudentIdFilter(e.target.value)}
+            />
           </div>
 
           {isLoading ? (
