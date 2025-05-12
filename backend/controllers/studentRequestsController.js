@@ -86,9 +86,32 @@ const getRequestsForStaffByStatus = async (req, res) => {
   }
 };
 
+const getRequestsByStudentId = async (req, res) => {
+  const studentId = req.query.studentId;
+  if (!studentId) {
+    return res.status(400).json({ message: "Missing student ID" });
+  }
+
+  try {
+    const requests = await StudentRequest.find()
+      .populate("student")
+      .populate("staff")
+      .populate("course")
+      .populate("requestType");
+
+    const filtered = requests.filter((req) => req.student?.id === studentId);
+
+    res.json(filtered);
+  } catch (error) {
+    console.error("Error fetching requests by student ID:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   getRequestsForStaff,
   approveRequest,
   rejectRequest,
   getRequestsForStaffByStatus,
+  getRequestsByStudentId,
 };
