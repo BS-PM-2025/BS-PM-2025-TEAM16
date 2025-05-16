@@ -3,7 +3,7 @@ import * as services from "./utils/services";
 describe("Services", () => {
   describe("saveToLocalStorage", () => {
     test("save string value to local storage", () => {
-      const key = "example";
+      const key = "example1";
       services.saveToLocalStorage(key, "1");
       expect(localStorage.getItem(key)).toBe("1");
     });
