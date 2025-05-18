@@ -3,7 +3,7 @@ import * as services from "./utils/services";
 describe("Services", () => {
   describe("saveToLocalStorage", () => {
     test("save string value to local storage", () => {
-      const key = "example";
+      const key = "example1";
       services.saveToLocalStorage(key, "1");
       expect(localStorage.getItem(key)).toBe("1");
     });
@@ -58,15 +58,15 @@ describe("Services", () => {
   });
 });
 
-describe("Simple unit tests for request status", () => {
-  const baseRequest = { _id: "123", status: "ממתין" };
+describe("request status", () => {
+  const baseRequest = { _id: "123456789", status: "ממתין" };
 
-  test("should update status to approved", () => {
+  test("update status to approved", () => {
     const updated = services.approveRequestStatus(baseRequest);
     expect(updated.status).toBe("אושר");
   });
 
-  test("should update status to rejected", () => {
+  test("update status to rejected", () => {
     const updated = services.rejectRequestStatus(baseRequest);
     expect(updated.status).toBe("נדחה");
   });
