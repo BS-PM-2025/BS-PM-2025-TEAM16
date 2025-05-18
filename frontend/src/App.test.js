@@ -57,17 +57,3 @@ describe("Services", () => {
     });
   });
 });
-
-describe("request status", () => {
-  const baseRequest = { _id: "123456789", status: "ממתין" };
-
-  test("update status to approved", () => {
-    const updated = services.approveRequestStatus(baseRequest);
-    expect(updated.status).toBe("אושר");
-  });
-
-  test("update status to rejected", () => {
-    const updated = services.rejectRequestStatus(baseRequest);
-    expect(updated.status).toBe("נדחה");
-  });
-});

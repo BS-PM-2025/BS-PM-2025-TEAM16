@@ -28,14 +28,6 @@ export const logout = () => {
   }
 };
 
-export const approveRequestStatus = (request) => {
-  return { ...request, status: "אושר" };
-};
-
-export const rejectRequestStatus = (request) => {
-  return { ...request, status: "נדחה" };
-};
-
 export const Validators = {
   exists: (value) => Boolean(value),
 };
