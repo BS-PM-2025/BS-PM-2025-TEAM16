@@ -1,12 +1,8 @@
 const request = require("supertest");
-const { app, startServer } = require("../index");
-const mongoose = require("mongoose");
+const { app } = require("../index");
 const User = require("../models/User");
-let server;
 
-beforeAll(async () => {
-  server = await startServer();
-
+beforeEach(async () => {
   await User.create({
     id: "123123123",
     firstname: "Test",
@@ -19,20 +15,7 @@ beforeAll(async () => {
 });
 
 afterEach(async () => {
-  await User.deleteMany({ username: { $in: ["testuser"] } });
-});
-
-afterAll(async () => {
-  await mongoose.connection.close();
-
-  if (server) {
-    await new Promise((resolve) => {
-      server.close(() => {
-        console.log("Server closed");
-        resolve();
-      });
-    });
-  }
+  await User.deleteMany({ username: "testuser" });
 });
 
 describe("integration Test", () => {
