@@ -1,35 +1,85 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-require('dotenv').config();
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 3006;
-
-
 app.use(express.json());
 app.use(cors());
 
+// ייבוא ראוטים
+const authRoutes = require("./routes/authRoutes");
+const studentRequestsRouter = require("./routes/studentRequests");
+const userRoutes = require("./routes/users");
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('MongoDB connected'))
-.catch((err) => console.error('MongoDB connection error:', err));
+// שימוש בראוטים
+app.use("/api", authRoutes);
+app.use("/api/staff/requests", studentRequestsRouter);
+app.use("/api/requests", studentRequestsRouter);
+app.use("/users", userRoutes);
 
+// ייבוא מודלים לשליפת נושאים וקורסים
+const RequestType = require('./models/RequestType');
+const Course = require('./models/Course');
 
-const authRoutes = require('./routes/authRoutes');
-const studentRequestsRouter = require('./routes/studentRequests');
-
-app.use('/api', authRoutes);
-app.use('/api/staff/requests', studentRequestsRouter);
-
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome' });
+// שליפת נושאי בקשה (לסטודנטים)
+app.get("/api/topics", async (req, res) => {
+  try {
+    const topics = await RequestType.find({});
+    res.json(topics);
+  } catch (error) {
+    res.status(500).json({ message: "שגיאה בשליפת נושאים", error: error.message });
+  }
 });
 
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// שליפת קורסים (לסטודנטים)
+app.get("/api/courses", async (req, res) => {
+  try {
+    const courses = await Course.find({});
+    res.json(courses);
+  } catch (error) {
+    res.status(500).json({ message: "שגיאה בשליפת קורסים", error: error.message });
+  }
 });
+
+// ברירת מחדל
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome" });
+});
+
+// הרצת שרת רגיל או ל־test
+let server = null;
+
+const startServer = async () => {
+  const PORT = process.env.PORT || 3006;
+
+  await mongoose.connect(process.env.MONGO_URI);
+
+  return new Promise((resolve) => {
+    server = app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+      resolve(server);
+    });
+  });
+};
+
+const stopServer = async () => {
+  if (server) {
+    await new Promise((resolve) => server.close(resolve));
+  }
+  await mongoose.disconnect();
+};
+
+// הפעלת השרת אם זה הקובץ הראשי
+if (require.main === module) {
+  startServer().catch((err) => {
+    console.error("Failed to start server:", err);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  app,
+  startServer,
+  stopServer,
+};

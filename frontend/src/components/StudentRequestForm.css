@@ -1,0 +1,94 @@
+.start-button {
+    width: 100%;
+    padding: 0.9rem;
+    background: linear-gradient(to left, #8e44ad, #6c5ce7);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .start-button:hover {
+    background: linear-gradient(to right, #6c5ce7, #8e44ad);
+    transform: translateY(-1px);
+  }
+  
+  
+  .student-form {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    direction: rtl;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .form-title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+  }
+  
+  .form-label {
+    display: block;
+    margin: 1rem 0 0.5rem;
+    font-weight: 500;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+  }
+  
+  .form-input:focus {
+    border-color: #8e44ad;
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 0 5px #c39bd3;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: linear-gradient(to left, #8e44ad, #6c5ce7);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background: linear-gradient(to right, #6c5ce7, #8e44ad);
+  }
+  
+  .required-docs {
+    color: #e67e22;
+    font-weight: bold;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .success-msg {
+    color: #2ecc71;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  

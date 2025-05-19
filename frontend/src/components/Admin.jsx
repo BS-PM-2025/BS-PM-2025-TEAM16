@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom"
 import Header from '../header';
 import { getFromLocalStorage } from "../utils/services"
 import './Welcome.css';
@@ -23,6 +24,16 @@ const Admin = () => {
                     </>
                 )}
             </div>
+            <div className="admin-links">
+        <h3>פעולות ניהוליות:</h3>
+        <ul>
+          <li><Link to="/admin/add-user">הוספת משתמש</Link></li>
+          <li><Link to="/admin/edit-role">עריכת תפקיד</Link></li>
+          <li><Link to="/admin/user-list">רשימת משתמשים</Link></li>
+          <li><Link to="/admin/student-details">פרטי סטודנט</Link></li>
+          
+        </ul>
+      </div>
         </div>
         </div>
     );
