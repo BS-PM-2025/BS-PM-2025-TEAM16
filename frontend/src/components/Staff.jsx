@@ -114,7 +114,7 @@ const Staff = () => {
             <input
               id="student-id-input"
               type="text"
-              placeholder="הקלד ת.ז של סטודנט"
+              placeholder="הקלד תעודת זהות"
               className="id-input"
               value={studentIdFilter}
               onChange={(e) => setStudentIdFilter(e.target.value)}

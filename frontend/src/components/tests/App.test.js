@@ -1,4 +1,4 @@
-import * as services from "./utils/services";
+import * as services from "../../utils/services";
 
 describe("Services", () => {
   describe("saveToLocalStorage", () => {
