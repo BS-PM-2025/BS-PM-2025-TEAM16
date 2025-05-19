@@ -108,10 +108,32 @@ const getRequestsByStudentId = async (req, res) => {
   }
 };
 
+const transferRequest = async (req, res) => {
+  try {
+    const requestId = req.params.id;
+    const { newStaffId } = req.body;
+
+    const request = await StudentRequest.findByIdAndUpdate(
+      requestId,
+      { staff: newStaffId },
+      { new: true }
+    );
+
+    if (!request) {
+      return res.status(404).json({ message: "Request not found" });
+    }
+
+    res.json({ message: "הבקשה הועברה בהצלחה", request });
+  } catch (err) {
+    res.status(500).json({ message: "שגיאה בהעברת הבקשה", error: err.message });
+  }
+};
+
 module.exports = {
   getRequestsForStaff,
   approveRequest,
   rejectRequest,
   getRequestsForStaffByStatus,
   getRequestsByStudentId,
+  transferRequest
 };

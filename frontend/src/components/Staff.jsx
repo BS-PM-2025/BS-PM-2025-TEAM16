@@ -11,6 +11,9 @@ const Staff = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [statusFilter, setStatusFilter] = useState("ממתין");
   const [studentIdFilter, setStudentIdFilter] = useState("");
+  const [allStaff, setAllStaff] = useState([]);
+  const [selectedStaff, setSelectedStaff] = useState("");
+
   useEffect(() => {
     const data = getFromLocalStorage("projectFS");
     setUserData(data);
@@ -23,15 +26,9 @@ const Staff = () => {
       }
 
       axios
-        .get(
-          url,
-
-          {
-            headers: {
-              "user-role": "Staff",
-            },
-          }
-        )
+        .get(url, {
+          headers: { "user-role": "Staff" },
+        })
         .then((res) => {
           setRequests(res.data);
           setIsLoading(false);
@@ -40,6 +37,16 @@ const Staff = () => {
           console.error("Error loading staff requests:", err);
           setIsLoading(false);
         });
+
+      axios
+        .get("http://localhost:3006/users/all-users")
+        .then((res) => {
+          const staffOnly = res.data.filter(
+            (user) => user.role === "Staff" && user.username !== data.user.username
+          );
+          setAllStaff(staffOnly);
+        })
+        .catch((err) => console.error("Error loading users:", err));
     } else {
       setIsLoading(false);
     }
@@ -50,14 +57,7 @@ const Staff = () => {
       .put(`http://localhost:3006/api/staff/requests/approve/${id}`)
       .then(() => {
         alert("הבקשה אושרה");
-        setRequests((prevRequests) =>
-          prevRequests.map((req) =>
-            req._id === id ? { ...req, status: "אושר" } : req
-          )
-        );
-        setSelectedRequest((prev) =>
-          prev ? { ...prev, status: "אושר" } : prev
-        );
+        updateRequestStatus(id, "אושר");
       })
       .catch(() => alert("שגיאה באישור הבקשה"));
   };
@@ -67,38 +67,51 @@ const Staff = () => {
       .put(`http://localhost:3006/api/staff/requests/reject/${id}`)
       .then(() => {
         alert("הבקשה נדחתה");
-        setRequests((prevRequests) =>
-          prevRequests.map((req) =>
-            req._id === id ? { ...req, status: "נדחה" } : req
-          )
-        );
-        setSelectedRequest((prev) =>
-          prev ? { ...prev, status: "נדחה" } : prev
-        );
+        updateRequestStatus(id, "נדחה");
       })
       .catch(() => alert("שגיאה בדחיית הבקשה"));
+  };
+
+  const handleTransfer = (id) => {
+    if (!selectedStaff) {
+      alert("אנא בחר איש סגל להעברה");
+      return;
+    }
+
+    axios
+      .put(`http://localhost:3006/api/staff/requests/transfer/${id}`, {
+        newStaffId: selectedStaff,
+      })
+      .then(() => {
+        alert("הבקשה הועברה בהצלחה");
+        setRequests((prev) => prev.filter((req) => req._id !== id));
+        setSelectedRequest(null);
+      })
+      .catch(() => alert("שגיאה בהעברת הבקשה"));
+  };
+
+  const updateRequestStatus = (id, status) => {
+    setRequests((prev) =>
+      prev.map((req) => (req._id === id ? { ...req, status } : req))
+    );
+    setSelectedRequest((prev) => (prev ? { ...prev, status } : prev));
   };
 
   return (
     <div className="welcome" dir="rtl">
       <div className="welcome-page-container">
         <Header />
-
         {userData && (
           <div className="welcome-header-box">
-            <h2> ברוך הבא לאזור האישי שלך {userData.user.username}</h2>
+            <h2>ברוך הבא לאזור האישי שלך {userData.user.username}</h2>
           </div>
         )}
 
         <div className="requests-box">
           <h3>בקשות סטודנטים לטיפולך:</h3>
-
           <div className="status-container">
-            <label htmlFor="status-select" className="status-label">
-              סינון לפי סטטוס:
-            </label>
+            <label className="status-label">סינון לפי סטטוס:</label>
             <select
-              id="status-select"
               className="status-select"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
@@ -108,11 +121,8 @@ const Staff = () => {
               <option value="אושר">אושר</option>
               <option value="נדחה">נדחה</option>
             </select>
-            <label htmlFor="student-id-input" className="status-label">
-              הזן תעודת זהות לסינון:
-            </label>
+            <label className="status-label">הזן תעודת זהות לסינון:</label>
             <input
-              id="student-id-input"
               type="text"
               placeholder="הקלד ת.ז של סטודנט"
               className="id-input"
@@ -204,6 +214,28 @@ const Staff = () => {
                 </ul>
               </div>
             )}
+
+            <div style={{ marginTop: "1rem" }}>
+              <label>העבר לאיש סגל אחר:</label>
+              <select
+                value={selectedStaff}
+                onChange={(e) => setSelectedStaff(e.target.value)}
+              >
+                <option value="">בחר איש סגל</option>
+                {allStaff.map((s) => (
+                  <option key={s._id} value={s._id}>
+                    {s.firstname} {s.lastname}
+                  </option>
+                ))}
+              </select>
+              <button
+                className="approve-button"
+                onClick={() => handleTransfer(selectedRequest._id)}
+              >
+                העבר בקשה
+              </button>
+            </div>
+
             <button
               className="approve-button"
               onClick={() => handleApprove(selectedRequest._id)}

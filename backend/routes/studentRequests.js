@@ -15,9 +15,10 @@ const {
   rejectRequest,
   getRequestsForStaffByStatus,
   getRequestsByStudentId,
+  transferRequest,
 } = require("../controllers/studentRequestsController");
 
-// 🔐 Middleware לסגל
+
 const isStaff = (req, res, next) => {
   if (req.headers["user-role"] === "Staff") {
     next();
@@ -26,7 +27,7 @@ const isStaff = (req, res, next) => {
   }
 };
 
-// 📁 הגדרות Multer
+
 const uploadPath = path.join(__dirname, "../uploads");
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath);
@@ -44,9 +45,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-/**
- * 🟢 יצירת בקשה חדשה ע"י סטודנט (עם העלאת מסמכים)
- */
+
 router.post("/", upload.array("documents"), async (req, res) => {
   try {
     const {
@@ -99,9 +98,7 @@ router.post("/", upload.array("documents"), async (req, res) => {
   }
 });
 
-/**
- * 🔵 קריאות עבור סגל
- */
+
 router.get("/", isStaff, getRequestsForStaff);
 
 router.get("/department/:departmentName", async (req, res) => {
@@ -147,6 +144,7 @@ router.get("/department-requests", async (req, res) => {
 
 router.put("/approve/:id", approveRequest);
 router.put("/reject/:id", rejectRequest);
+router.put("/transfer/:id", transferRequest);
 router.get("/by-status-and-staff", getRequestsForStaffByStatus);
 router.get("/by-student-id", getRequestsByStudentId);
 
