@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
 
 const StudentRequest = require("../models/StudentRequest");
 const User = require("../models/User");
@@ -18,7 +19,7 @@ const {
   transferRequest,
 } = require("../controllers/studentRequestsController");
 
-
+// הגנה על מסלולים שמיועדים לסגל בלבד
 const isStaff = (req, res, next) => {
   if (req.headers["user-role"] === "Staff") {
     next();
@@ -27,7 +28,7 @@ const isStaff = (req, res, next) => {
   }
 };
 
-
+// הכנה להעלאת קבצים
 const uploadPath = path.join(__dirname, "../uploads");
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath);
@@ -44,7 +45,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
 
 router.post("/", upload.array("documents"), async (req, res) => {
   try {
@@ -63,6 +63,7 @@ router.post("/", upload.array("documents"), async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
+    // שליפת נתוני המשתמשים והקורסים
     const studentData = await User.findById(student);
     const staffData = await User.findById(staff);
     const courseData = await Course.findById(course);
@@ -91,6 +92,36 @@ router.post("/", upload.array("documents"), async (req, res) => {
     });
 
     await newRequest.save();
+
+    // שליחת מייל לסגל
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "dorin2107@gmail.com", 
+        pass: "syhyigdbowmrtesa",     // סיסמת אפליקציה מג'ימייל
+      },
+    });
+
+    const mailOptions = {
+      from: "yourEmail@gmail.com",
+      to: staffData.email,
+      subject: "בקשת סטודנט חדשה",
+      text: `שלום ${staffData.firstname},
+
+התקבלה בקשת סטודנט חדשה:
+סטודנט: ${studentData.firstname} ${studentData.lastname}
+קורס: ${courseData.name}
+נושא: ${requestTypeData.name}
+תיאור: ${description || "—"}
+
+אנא היכנס למערכת על מנת לטפל בבקשה.
+
+בברכה,
+המערכת`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
     res.status(201).json({ message: "הבקשה נשלחה בהצלחה!" });
   } catch (err) {
     console.error("שגיאה בשליחת הבקשה:", err);
@@ -98,9 +129,8 @@ router.post("/", upload.array("documents"), async (req, res) => {
   }
 });
 
-
+// שאר הקריאות לסטטוס / מחלקה / סטודנט
 router.get("/", isStaff, getRequestsForStaff);
-
 router.get("/department/:departmentName", async (req, res) => {
   try {
     const requests = await StudentRequest.find({
@@ -112,9 +142,7 @@ router.get("/department/:departmentName", async (req, res) => {
 
     res.json(requests);
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error loading requests for the department" });
+    res.status(500).json({ message: "Error loading requests for the department" });
   }
 });
 
@@ -142,6 +170,7 @@ router.get("/department-requests", async (req, res) => {
   }
 });
 
+// עדכון בקשה
 router.put("/approve/:id", approveRequest);
 router.put("/reject/:id", rejectRequest);
 router.put("/transfer/:id", transferRequest);
