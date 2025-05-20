@@ -237,3 +237,53 @@
   font-size: 14px;
   max-width: 180px;
 }
+
+.comment-section,
+.transfer-section {
+  margin-top: 20px;
+}
+
+.comment-input {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+}
+
+.staff-select {
+  width: 100%;
+  padding: 6px;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.transfer-button {
+  background-color: #6c63ff;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.transfer-button:hover {
+  background-color: #aae8f9;
+}
+
+.transfer-button {
+  background-color: #a0e9fa; 
+  color: #ffffff;
+  border: 2px solid #a0e9fa;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+

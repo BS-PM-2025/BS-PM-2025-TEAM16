@@ -6,6 +6,7 @@ body {
   width: 100%;
   font-family: "Poppins", sans-serif;
   background: linear-gradient(135deg, #f9fafe, #e4efff);
+  display: flex;
   justify-content: center;
   align-items: center;
   overflow-x: hidden;

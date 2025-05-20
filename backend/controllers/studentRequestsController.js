@@ -6,12 +6,9 @@ const Course = require("../models/Course");
 const getRequestsForStaff = async (req, res) => {
   try {
     const staffUsername = req.query.staffUsername;
-
     const staffUser = await User.findOne({ username: staffUsername });
 
-    if (!staffUser) {
-      return res.status(404).json({ message: "Staff not found" });
-    }
+    if (!staffUser) return res.status(404).json({ message: "Staff not found" });
 
     const requests = await StudentRequest.find({ staff: staffUser._id })
       .populate("student", "firstname lastname id department")
@@ -27,49 +24,56 @@ const getRequestsForStaff = async (req, res) => {
 
 const approveRequest = async (req, res) => {
   try {
-    const request = await StudentRequest.findByIdAndUpdate(
-      req.params.id,
-      { status: "אושר" },
-      { new: true }
-    );
+    console.log("comment received:", req.body.comment);
+    const request = await StudentRequest.findById(req.params.id);
+    if (!request) return res.status(404).json({ message: "Request not found" });
 
-    if (!request) {
-      return res.status(404).send({ message: "Request not found" });
+    request.status = "אושר";
+
+    if (req.body.comment) {
+      request.staffComments.push({
+        comment: req.body.comment,
+        staff: req.body.staffId,
+        date: new Date()
+      });
     }
 
-    res.status(200).send(request);
+    await request.save();
+    res.status(200).json(request);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 const rejectRequest = async (req, res) => {
   try {
-    const request = await StudentRequest.findByIdAndUpdate(
-      req.params.id,
-      { status: "נדחה" },
-      { new: true }
-    );
+    console.log("comment received:", req.body.comment);
+    const request = await StudentRequest.findById(req.params.id);
+    if (!request) return res.status(404).json({ message: "Request not found" });
 
-    if (!request) {
-      return res.status(404).send({ message: "Request not found" });
+    request.status = "נדחה";
+
+    if (req.body.comment) {
+      request.staffComments.push({
+        comment: req.body.comment,
+        staff: req.body.staffId,
+        date: new Date()
+      });
     }
 
-    res.status(200).send(request);
+    await request.save();
+    res.status(200).json(request);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 const getRequestsForStaffByStatus = async (req, res) => {
   try {
     const { staffUsername, status } = req.query;
-
     const staffUser = await User.findOne({ username: staffUsername });
 
-    if (!staffUser) {
-      return res.status(404).json({ message: "Staff not found" });
-    }
+    if (!staffUser) return res.status(404).json({ message: "Staff not found" });
 
     const requests = await StudentRequest.find({
       staff: staffUser._id,
@@ -88,9 +92,7 @@ const getRequestsForStaffByStatus = async (req, res) => {
 
 const getRequestsByStudentId = async (req, res) => {
   const studentId = req.query.studentId;
-  if (!studentId) {
-    return res.status(400).json({ message: "Missing student ID" });
-  }
+  if (!studentId) return res.status(400).json({ message: "Missing student ID" });
 
   try {
     const requests = await StudentRequest.find()
@@ -100,11 +102,29 @@ const getRequestsByStudentId = async (req, res) => {
       .populate("requestType");
 
     const filtered = requests.filter((req) => req.student?.id === studentId);
-
     res.json(filtered);
   } catch (error) {
     console.error("Error fetching requests by student ID:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+const transferRequest = async (req, res) => {
+  try {
+    const requestId = req.params.id;
+    const { newStaffId } = req.body;
+
+    const request = await StudentRequest.findByIdAndUpdate(
+      requestId,
+      { staff: newStaffId },
+      { new: true }
+    );
+
+    if (!request) return res.status(404).json({ message: "Request not found" });
+
+    res.json({ message: "Request transferred successfully", request });
+  } catch (err) {
+    res.status(500).json({ message: "Error transferring request", error: err.message });
   }
 };
 
@@ -114,4 +134,5 @@ module.exports = {
   rejectRequest,
   getRequestsForStaffByStatus,
   getRequestsByStudentId,
+  transferRequest
 };

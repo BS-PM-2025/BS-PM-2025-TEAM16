@@ -1,3 +1,5 @@
+export const USER_DATA_LOCAL_STORAGE_KEY = "projectFS";
+
 export const saveToLocalStorage = (key, value) => {
   try {
     const serializedValue =
@@ -11,7 +13,7 @@ export const saveToLocalStorage = (key, value) => {
 export const getFromLocalStorage = (key) => {
   try {
     const value = localStorage.getItem(key);
-    console.log(value);
+    console.log(value); // נשמר מהמיין לצורכי דיבאג
     return value ? JSON.parse(value) : null;
   } catch (error) {
     console.error("Error getting from localStorage", error);
@@ -19,7 +21,6 @@ export const getFromLocalStorage = (key) => {
   }
 };
 
-export const USER_DATA_LOCAL_STORAGE_KEY = "projectFS";
 export const logout = () => {
   try {
     localStorage.removeItem(USER_DATA_LOCAL_STORAGE_KEY);
