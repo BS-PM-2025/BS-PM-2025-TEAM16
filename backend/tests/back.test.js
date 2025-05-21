@@ -11,6 +11,7 @@ beforeEach(async () => {
     password: "testpass",
     role: "Admin",
     department: "Testdepart",
+    email: "test@email.com",
   });
 });
 
