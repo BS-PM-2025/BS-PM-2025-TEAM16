@@ -41,8 +41,10 @@ const resetPassword = async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    user.password = newPassword;
-    await user.save();
+    await User.updateOne(
+      { username },
+      { $set: { password: newPassword } }
+    );
 
     res.json({ success: true, message: 'Password reset successfully' });
   } catch (err) {
@@ -50,5 +52,6 @@ const resetPassword = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+
 
 module.exports = { login, resetPassword };

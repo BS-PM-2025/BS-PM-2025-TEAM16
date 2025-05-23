@@ -1,4 +1,3 @@
-//most recent
 import React, { useEffect, useState } from "react";
 import "./StudentRequestForm.css";
 
@@ -22,6 +21,7 @@ function StudentRequestForm() {
   const [files, setFiles] = useState([]);
   const [requiredDocs, setRequiredDocs] = useState("");
   const [success, setSuccess] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false); // חדש
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,9 +41,9 @@ function StudentRequestForm() {
     fetchData();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleStart = () => setShowForm(true);
 
+  const handleConfirmationSubmit = async () => {
     const stored = localStorage.getItem("projectFS");
     if (!stored) return alert("לא נמצא משתמש מחובר");
 
@@ -78,16 +78,17 @@ function StudentRequestForm() {
         setDescription("");
         setFiles([]);
         setRequiredDocs("");
+        setShowConfirmation(false);
       } else {
         const errMsg = await res.text();
         alert("שגיאה בשליחה לשרת:\n" + errMsg);
+        setShowConfirmation(false);
       }
     } catch (err) {
       alert("שגיאה בשליחה לשרת: " + err.message);
+      setShowConfirmation(false);
     }
   };
-
-  const handleStart = () => setShowForm(true);
 
   return (
     <div className="container">
@@ -100,7 +101,7 @@ function StudentRequestForm() {
       )}
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="student-form">
+        <form onSubmit={(e) => e.preventDefault()} className="student-form">
           <h2 className="form-title">יצירת בקשת סטודנט</h2>
 
           <label className="form-label">בחר נושא בקשה:</label>
@@ -164,7 +165,11 @@ function StudentRequestForm() {
           )}
 
           <div className="buttons">
-            <button type="submit" className="submit-btn">
+            <button
+              type="button"
+              className="submit-btn"
+              onClick={() => setShowConfirmation(true)}
+            >
               שלח בקשה
             </button>
             <button
@@ -177,6 +182,39 @@ function StudentRequestForm() {
           </div>
           {success && <p className="success-msg">הבקשה נשלחה בהצלחה!</p>}
         </form>
+      )}
+
+      {showConfirmation && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>את/ה בטוח?</p>
+            <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
+              <button
+                style={{
+                  backgroundColor: "#800080",
+                  color: "white",
+                  padding: "0.5rem 1.5rem",
+                  borderRadius: "10px",
+                }}
+                onClick={handleConfirmationSubmit}
+              >
+                אישור
+              </button>
+              <button
+                style={{
+                  border: "2px solid #800080",
+                  color: "#800080",
+                  padding: "0.5rem 1.5rem",
+                  borderRadius: "10px",
+                  backgroundColor: "white",
+                }}
+                onClick={() => setShowConfirmation(false)}
+              >
+                ביטול
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
