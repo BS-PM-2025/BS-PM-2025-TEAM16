@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
 import { API_URL } from "../utils/resources";
-import { saveToLocalStorage, getFromLocalStorage,Validators } from "../utils/services";
+import { saveToLocalStorage, getFromLocalStorage, Validators } from "../utils/services";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -14,7 +14,6 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
- 
   useEffect(() => {
     const storedUser = getFromLocalStorage("projectFS");
     if (storedUser?.user?.role) {
@@ -54,7 +53,7 @@ function Login() {
         const role = user.role.toLowerCase();
         navigate(`/${role}`);
       } else {
-        setError(response.data.message); 
+        setError(response.data.message);
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -81,7 +80,7 @@ function Login() {
 
           <div>
             <label>
-             סיסמה
+              סיסמה
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
@@ -89,14 +88,32 @@ function Login() {
               />
               {passwordError && <div className="error">{passwordError}</div>}
             </label>
-            <div className="show-password">
-            <label htmlFor="showPassword">הצג סיסמה</label>
+
+            <div className="password-options" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+              <label htmlFor="showPassword">הצג סיסמה</label>
               <input
                 type="checkbox"
                 id="showPassword"
                 checked={showPassword}
                 onChange={() => setShowPassword(!showPassword)}
               />
+
+              <button
+                type="button"
+                onClick={() => navigate('/forgot-password')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#007bff',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  padding: 0,
+                  fontSize: '0.9em',
+                  marginRight: 'auto'
+                }}
+              >
+                שכחתי סיסמה?
+              </button>
             </div>
           </div>
 

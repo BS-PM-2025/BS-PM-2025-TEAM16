@@ -158,3 +158,16 @@ body::after {
   right: -100px;
   background: #ffb6a0;
 }
+
+.return-login-button {
+  margin-top: 15px;
+  background: linear-gradient(to left, #91cff9, #91cff9);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
