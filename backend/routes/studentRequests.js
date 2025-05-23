@@ -17,6 +17,7 @@ const {
   getRequestsForStaffByStatus,
   getRequestsByStudentId,
   transferRequest,
+  getRequestsForStudent,
 } = require("../controllers/studentRequestsController");
 
 // הגנה על מסלולים שמיועדים לסגל בלבד
@@ -97,8 +98,8 @@ router.post("/", upload.array("documents"), async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "dorin2107@gmail.com", 
-        pass: "syhyigdbowmrtesa",     // סיסמת אפליקציה מג'ימייל
+        user: "dorin2107@gmail.com",
+        pass: "syhyigdbowmrtesa", // סיסמת אפליקציה מג'ימייל
       },
     });
 
@@ -142,7 +143,9 @@ router.get("/department/:departmentName", async (req, res) => {
 
     res.json(requests);
   } catch (err) {
-    res.status(500).json({ message: "Error loading requests for the department" });
+    res
+      .status(500)
+      .json({ message: "Error loading requests for the department" });
   }
 });
 
@@ -170,11 +173,10 @@ router.get("/department-requests", async (req, res) => {
   }
 });
 
-// עדכון בקשה
 router.put("/approve/:id", approveRequest);
 router.put("/reject/:id", rejectRequest);
 router.put("/transfer/:id", transferRequest);
 router.get("/by-status-and-staff", getRequestsForStaffByStatus);
 router.get("/by-student-id", getRequestsByStudentId);
-
+router.get("/requests", getRequestsForStudent);
 module.exports = router;
