@@ -8,6 +8,9 @@ const RequestType = require("../models/RequestType");
 let student, staff, course, requestType;
 
 beforeEach(async () => {
+  await User.deleteMany({
+    $or: [{ username: "testuserStudent" }, { username: "testuserStaff" }],
+  });
   student = await User.create({
     id: "123456788",
     firstname: "TestStudent",
@@ -36,7 +39,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await StudentRequest.deleteMany({
-    topic: { $in: ["בדיקה לאישור", "בדיקה לדחייה"] },
+    description: { $in: ["בדיקה לאישור", "בדיקה לדחייה"] },
     student: student._id,
   });
 
@@ -54,7 +57,7 @@ describe("Student request status updates", () => {
       staff: staff._id,
       course: course._id,
       requestType: requestType._id,
-      topic: "בדיקה לאישור",
+      description: "בדיקה לאישור",
       status: "ממתין",
     });
 
@@ -73,7 +76,7 @@ describe("Student request status updates", () => {
       staff: staff._id,
       course: course._id,
       requestType: requestType._id,
-      topic: "בדיקה לדחייה",
+      description: "בדיקה לדחייה",
       status: "ממתין",
     });
 

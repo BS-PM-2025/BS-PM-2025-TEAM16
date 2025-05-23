@@ -8,6 +8,9 @@ const StudentRequest = require("../models/StudentRequest");
 let student, staff, course, requestType;
 
 beforeEach(async () => {
+  await User.deleteMany({
+    $or: [{ username: "testuserStudent" }, { username: "testuserStaff" }],
+  });
   student = await User.create({
     id: "123456678",
     firstname: "TestStudent",
@@ -39,7 +42,7 @@ beforeEach(async () => {
       staff: staff._id,
       course: course._id,
       requestType: requestType._id,
-      topic: "בקשה 1",
+      description: "בקשה 1",
       status: "ממתין",
     },
     {
@@ -47,7 +50,7 @@ beforeEach(async () => {
       staff: staff._id,
       course: course._id,
       requestType: requestType._id,
-      topic: "בקשה 2",
+      description: "בקשה 2",
       status: "אושר",
     },
   ]);
