@@ -5,7 +5,7 @@ import {
   waitFor,
   within,
 } from "@testing-library/react";
-import Staff from "../Staff";
+import Staff, { ID_PLACEHOLDER } from "../Staff";
 import axios from "axios";
 
 jest.mock("axios");
@@ -32,13 +32,13 @@ test("filters requests by student ID", async () => {
     staffComments: [],
   };
 
-  axios.get.mockResolvedValueOnce({ data: [] });
+  axios.get.mockResolvedValue(Promise.resolve({ data: [] }));
   render(<Staff />);
   await waitFor(() => expect(axios.get).toHaveBeenCalled());
 
   axios.get.mockResolvedValueOnce({ data: [requestById] });
 
-  fireEvent.change(screen.getByPlaceholderText("הקלד תעודת זהות"), {
+  fireEvent.change(screen.getByPlaceholderText(ID_PLACEHOLDER), {
     target: { value: "555555555" },
   });
 

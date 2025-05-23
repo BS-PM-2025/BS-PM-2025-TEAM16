@@ -17,10 +17,11 @@ app.use("/api", authRoutes);
 app.use("/api/staff/requests", studentRequestsRouter);
 app.use("/api/requests", studentRequestsRouter);
 app.use("/users", userRoutes);
+app.use("/api/student", studentRequestsRouter);
 
 // ייבוא מודלים לשליפת נושאים וקורסים
-const RequestType = require('./models/RequestType');
-const Course = require('./models/Course');
+const RequestType = require("./models/RequestType");
+const Course = require("./models/Course");
 
 // שליפת נושאי בקשה (לסטודנטים)
 app.get("/api/topics", async (req, res) => {
@@ -28,7 +29,9 @@ app.get("/api/topics", async (req, res) => {
     const topics = await RequestType.find({});
     res.json(topics);
   } catch (error) {
-    res.status(500).json({ message: "שגיאה בשליפת נושאים", error: error.message });
+    res
+      .status(500)
+      .json({ message: "שגיאה בשליפת נושאים", error: error.message });
   }
 });
 
@@ -38,7 +41,9 @@ app.get("/api/courses", async (req, res) => {
     const courses = await Course.find({});
     res.json(courses);
   } catch (error) {
-    res.status(500).json({ message: "שגיאה בשליפת קורסים", error: error.message });
+    res
+      .status(500)
+      .json({ message: "שגיאה בשליפת קורסים", error: error.message });
   }
 });
 

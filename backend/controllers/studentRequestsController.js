@@ -22,6 +22,24 @@ const getRequestsForStaff = async (req, res) => {
   }
 };
 
+const getRequestsForStudent = async (req, res) => {
+  try {
+    const studentUsername = req.query.studentUsername;
+    const studentUser = await User.findOne({ username: studentUsername });
+
+    if (!studentUser)
+      return res.status(404).json({ message: "Student not found" });
+
+    const requests = await StudentRequest.find({ student: studentUser._id })
+      .populate("requestType", "name")
+      .populate("course", "name");
+
+    res.json(requests);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 const approveRequest = async (req, res) => {
   try {
     console.log("comment received:", req.body.comment);
@@ -34,7 +52,7 @@ const approveRequest = async (req, res) => {
       request.staffComments.push({
         comment: req.body.comment,
         staff: req.body.staffId,
-        date: new Date()
+        date: new Date(),
       });
     }
 
@@ -57,7 +75,7 @@ const rejectRequest = async (req, res) => {
       request.staffComments.push({
         comment: req.body.comment,
         staff: req.body.staffId,
-        date: new Date()
+        date: new Date(),
       });
     }
 
@@ -92,7 +110,8 @@ const getRequestsForStaffByStatus = async (req, res) => {
 
 const getRequestsByStudentId = async (req, res) => {
   const studentId = req.query.studentId;
-  if (!studentId) return res.status(400).json({ message: "Missing student ID" });
+  if (!studentId)
+    return res.status(400).json({ message: "Missing student ID" });
 
   try {
     const requests = await StudentRequest.find()
@@ -124,7 +143,9 @@ const transferRequest = async (req, res) => {
 
     res.json({ message: "Request transferred successfully", request });
   } catch (err) {
-    res.status(500).json({ message: "Error transferring request", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error transferring request", error: err.message });
   }
 };
 
@@ -133,6 +154,7 @@ module.exports = {
   approveRequest,
   rejectRequest,
   getRequestsForStaffByStatus,
+  transferRequest,
   getRequestsByStudentId,
-  transferRequest
+  getRequestsForStudent,
 };
