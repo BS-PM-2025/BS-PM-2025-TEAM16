@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./components/Login";
+import ForgotPassword from "./components/ForgotPassword"; // ← חדש
 import Student from "./components/Student";
 import Staff from "./components/Staff";
 import Admin from "./components/Admin";
@@ -16,8 +17,13 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        {/* דף התחברות */}
         <Route path="/" element={<Login />} />
 
+        {/* דף שחזור סיסמה */}
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        {/* סטודנט */}
         <Route
           path="/student"
           element={
@@ -26,6 +32,8 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        {/* סגל */}
         <Route
           path="/staff"
           element={
@@ -34,6 +42,8 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        {/* אדמין */}
         <Route
           path="/admin"
           element={
@@ -41,9 +51,9 @@ const App = () => {
               <Admin />
             </ProtectedRoute>
           }
-          
         />
-          <Route
+
+        <Route
           path="/admin/add-user"
           element={
             <ProtectedRoute allowedRole="Admin">
@@ -78,16 +88,16 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-        path="/staff/department-requests"
-        element={
-          <ProtectedRoute allowedRole="Staff">
-              <DepartmentRequests />
-                </ProtectedRoute>
-                }
-              />
 
-        </Routes>
+        <Route
+          path="/staff/department-requests"
+          element={
+            <ProtectedRoute allowedRole="Staff">
+              <DepartmentRequests />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </Router>
   );
 };
