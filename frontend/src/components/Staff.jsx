@@ -3,6 +3,7 @@ import axios from "axios";
 import Header from "../header";
 import { getFromLocalStorage } from "../utils/services";
 import "./Welcome.css";
+export const ID_PLACEHOLDER = "הקלד ת.ז של סטודנט";
 
 const Staff = () => {
   const [userData, setUserData] = useState(null);
@@ -55,7 +56,9 @@ const Staff = () => {
         setRequests((prev) =>
           prev.map((r) => (r._id === id ? { ...r, status: "אושר" } : r))
         );
-        setSelectedRequest((prev) => (prev ? { ...prev, status: "אושר" } : prev));
+        setSelectedRequest((prev) =>
+          prev ? { ...prev, status: "אושר" } : prev
+        );
         setCommentText("");
       })
       .catch(() => alert("שגיאה באישור הבקשה"));
@@ -71,7 +74,9 @@ const Staff = () => {
         setRequests((prev) =>
           prev.map((r) => (r._id === id ? { ...r, status: "נדחה" } : r))
         );
-        setSelectedRequest((prev) => (prev ? { ...prev, status: "נדחה" } : prev));
+        setSelectedRequest((prev) =>
+          prev ? { ...prev, status: "נדחה" } : prev
+        );
         setCommentText("");
       })
       .catch(() => alert("שגיאה בדחיית הבקשה"));
@@ -109,7 +114,9 @@ const Staff = () => {
           <h3>בקשות סטודנטים לטיפולך:</h3>
 
           <div className="status-container">
-            <label htmlFor="status-select" className="status-label">סינון לפי סטטוס:</label>
+            <label htmlFor="status-select" className="status-label">
+              סינון לפי סטטוס:
+            </label>
             <select
               id="status-select"
               className="status-select"
@@ -122,11 +129,13 @@ const Staff = () => {
               <option value="נדחה">נדחה</option>
             </select>
 
-            <label htmlFor="student-id-input" className="status-label">הזן תעודת זהות לסינון:</label>
+            <label htmlFor="student-id-input" className="status-label">
+              הזן תעודת זהות לסינון:
+            </label>
             <input
               id="student-id-input"
               type="text"
-              placeholder="הקלד ת.ז של סטודנט"
+              placeholder={ID_PLACEHOLDER}
               className="id-input"
               value={studentIdFilter}
               onChange={(e) => setStudentIdFilter(e.target.value)}
@@ -161,14 +170,22 @@ const Staff = () => {
                         onClick={() => setSelectedRequest(req)}
                         style={{ cursor: "pointer" }}
                       >
-                        <td>{req.student.firstname} {req.student.lastname}</td>
+                        <td>
+                          {req.student.firstname} {req.student.lastname}
+                        </td>
                         <td>{req.student.id}</td>
                         <td>{req.requestType?.name || "—"}</td>
                         <td>{req.course?.name || "—"}</td>
                         <td>{req.status}</td>
-                        <td>{req.staffComments.length>0
-                          ? req.staffComments[req.staffComments.length-1].comment:"-"}</td>
-                        <td>{new Date(req.submissionDate).toLocaleDateString()}</td>
+                        <td>
+                          {req.staffComments.length > 0
+                            ? req.staffComments[req.staffComments.length - 1]
+                                .comment
+                            : "-"}
+                        </td>
+                        <td>
+                          {new Date(req.submissionDate).toLocaleDateString()}
+                        </td>
                       </tr>
                     ) : null
                   )
@@ -181,15 +198,31 @@ const Staff = () => {
         {selectedRequest && (
           <div className="request-details-box">
             <h2>פרטי הבקשה</h2>
-            <p><strong>שם הסטודנט:</strong> {selectedRequest.student.firstname} {selectedRequest.student.lastname}</p>
-            <p><strong>קורס:</strong> {selectedRequest.course?.name}</p>
-            <p><strong>נושא:</strong> {selectedRequest.requestType?.name}</p>
-            <p><strong>תיאור הבקשה:</strong> {selectedRequest.description}</p>
-            <p><strong>סטטוס:</strong> {selectedRequest.status}</p>
-            <p><strong>תאריך הגשה:</strong> {new Date(selectedRequest.submissionDate).toLocaleDateString()}</p>
+            <p>
+              <strong>שם הסטודנט:</strong> {selectedRequest.student.firstname}{" "}
+              {selectedRequest.student.lastname}
+            </p>
+            <p>
+              <strong>קורס:</strong> {selectedRequest.course?.name}
+            </p>
+            <p>
+              <strong>נושא:</strong> {selectedRequest.requestType?.name}
+            </p>
+            <p>
+              <strong>תיאור הבקשה:</strong> {selectedRequest.description}
+            </p>
+            <p>
+              <strong>סטטוס:</strong> {selectedRequest.status}
+            </p>
+            <p>
+              <strong>תאריך הגשה:</strong>{" "}
+              {new Date(selectedRequest.submissionDate).toLocaleDateString()}
+            </p>
 
             <div style={{ marginTop: "1em" }}>
-              <label className="form-label"><strong>הוספת הערה לפני אישור/דחייה:</strong></label>
+              <label className="form-label">
+                <strong>הוספת הערה לפני אישור/דחייה:</strong>
+              </label>
               <textarea
                 className="form-input"
                 rows="3"
@@ -200,8 +233,17 @@ const Staff = () => {
             </div>
 
             <div style={{ marginTop: "1em" }}>
-              <label className="form-label"><strong>העבר בקשה לאיש סגל אחר:</strong></label>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "5px" }}>
+              <label className="form-label">
+                <strong>העבר בקשה לאיש סגל אחר:</strong>
+              </label>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  marginTop: "5px",
+                }}
+              >
                 <select
                   className="form-input"
                   value={selectedStaffId}
@@ -214,14 +256,31 @@ const Staff = () => {
                     </option>
                   ))}
                 </select>
-                <button className="transfer-button" onClick={handleTransfer}>העבר בקשה</button>
+                <button className="transfer-button" onClick={handleTransfer}>
+                  העבר בקשה
+                </button>
               </div>
             </div>
 
             <div style={{ marginTop: "1.5em", display: "flex", gap: "10px" }}>
-              <button className="approve-button" onClick={() => handleApprove(selectedRequest._id)}>אישור</button>
-              <button className="reject-button" onClick={() => handleReject(selectedRequest._id)}>דחה</button>
-              <button className="close-button" onClick={() => setSelectedRequest(null)}>סגור</button>
+              <button
+                className="approve-button"
+                onClick={() => handleApprove(selectedRequest._id)}
+              >
+                אישור
+              </button>
+              <button
+                className="reject-button"
+                onClick={() => handleReject(selectedRequest._id)}
+              >
+                דחה
+              </button>
+              <button
+                className="close-button"
+                onClick={() => setSelectedRequest(null)}
+              >
+                סגור
+              </button>
             </div>
           </div>
         )}
