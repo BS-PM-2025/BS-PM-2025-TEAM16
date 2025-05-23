@@ -18,26 +18,40 @@ test("filters requests by status", async () => {
     JSON.stringify({ user: { username: "staff1" } })
   );
 
-  const approvedRequest = {
-    _id: "2",
-    student: { firstname: "StudentTest", lastname: "User", id: "333333333" },
-    staff: { firstname: "StaffTest", lastname: "User", id: "444444444" },
-    course: { name: "מבוא לקומפילציה" },
-    requestType: { name: "דחיית הגשת עבודה" },
-    description: "Test",
-    documents: [],
-    department: "Software Engineering",
-    status: "אושר",
-    submissionDate: "2025-04-14T12:00:00.000+00:00",
-    staffComments: [],
-  };
+  axios.get.mockImplementation((url) => {
+    if (url.includes("status=אושר")) {
+      return Promise.resolve({
+        data: [
+          {
+            _id: "2",
+            student: {
+              firstname: "StudentTest",
+              lastname: "User",
+              id: "333333333",
+            },
+            staff: {
+              firstname: "StaffTest",
+              lastname: "User",
+              id: "444444444",
+            },
+            course: { name: "מבוא לקומפילציה" },
+            requestType: { name: "דחיית הגשת עבודה" },
+            description: "Test",
+            documents: [],
+            department: "Software Engineering",
+            status: "אושר",
+            submissionDate: "2025-04-14T12:00:00.000+00:00",
+            staffComments: [],
+          },
+        ],
+      });
+    }
+    return Promise.resolve({ data: [] });
+  });
 
-  axios.get.mockResolvedValueOnce({ data: [] });
   render(<Staff />);
 
   await waitFor(() => expect(axios.get).toHaveBeenCalled());
-
-  axios.get.mockResolvedValueOnce({ data: [approvedRequest] });
 
   fireEvent.change(screen.getByLabelText("סינון לפי סטטוס:"), {
     target: { value: "אושר" },

@@ -26,7 +26,7 @@ test("approve Request", async () => {
     JSON.stringify({ user: { username: "staff1" } })
   );
 
-  axios.get.mockResolvedValueOnce({ data: [mockRequest] });
+  axios.get.mockResolvedValue(Promise.resolve({ data: [mockRequest] }));
   axios.put.mockResolvedValueOnce({});
   render(<Staff />);
   await waitFor(() => expect(axios.get).toHaveBeenCalled());
@@ -39,7 +39,8 @@ test("approve Request", async () => {
 
   await waitFor(() => {
     expect(axios.put).toHaveBeenCalledWith(
-      `http://localhost:3006/api/staff/requests/approve/${mockRequest._id}`
+      `http://localhost:3006/api/staff/requests/approve/${mockRequest._id}`,
+      expect.objectContaining({ comment: "" })
     );
   });
 });
@@ -51,7 +52,7 @@ test("reject Request", async () => {
     JSON.stringify({ user: { username: "staff1" } })
   );
 
-  axios.get.mockResolvedValueOnce({ data: [mockRequest] });
+  axios.get.mockResolvedValue(Promise.resolve({ data: [mockRequest] }));
   axios.put.mockResolvedValueOnce({});
   render(<Staff />);
   await waitFor(() => expect(axios.get).toHaveBeenCalled());
@@ -64,7 +65,8 @@ test("reject Request", async () => {
 
   await waitFor(() => {
     expect(axios.put).toHaveBeenCalledWith(
-      `http://localhost:3006/api/staff/requests/reject/${mockRequest._id}`
+      `http://localhost:3006/api/staff/requests/reject/${mockRequest._id}`,
+      expect.objectContaining({ comment: "" })
     );
   });
 });
