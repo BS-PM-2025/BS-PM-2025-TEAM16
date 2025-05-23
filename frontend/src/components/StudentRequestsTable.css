@@ -75,3 +75,23 @@
 .close-button:hover {
   background-color: #e0e0e0;
 }
+
+.status-text {
+  font-weight: bold;
+  display: inline-block;
+  padding-inline-start: 8px;
+  padding-inline-end: 8px;
+}
+
+.אושר .status-text {
+  color: green;
+}
+
+.נדחה .status-text {
+  color: red;
+}
+
+.ממתין .status-text,
+.בטיפול .status-text {
+  color: orange;
+}

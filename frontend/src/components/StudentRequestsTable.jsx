@@ -59,7 +59,9 @@ const StudentRequestsTable = () => {
                 >
                   <td>{req.requestType?.name || "—"}</td>
                   <td>{req.course?.name || "—"}</td>
-                  <td className={req.status}>{req.status}</td>
+                  <td className={req.status}>
+                    <span className="status-text">{req.status}</span>
+                  </td>
                   <td>{new Date(req.submissionDate).toLocaleDateString()}</td>
                 </tr>
               ))

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./StudentRequestForm.css";
+import RequestSentModal from "./RequestSentModal";
 
 const API_BASE = "http://localhost:3006";
 
@@ -20,8 +21,9 @@ function StudentRequestForm() {
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState([]);
   const [requiredDocs, setRequiredDocs] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false); // חדש
+  const [showModal, setShowModal] = useState(false);
+  const [estimatedDate, setEstimatedDate] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,6 +53,7 @@ function StudentRequestForm() {
     const studentId = parsed?.user?._id;
     if (!studentId) return alert("לא נמצא מזהה סטודנט");
 
+    const submissionDate = new Date();
     const formData = new FormData();
     formData.append("student", studentId);
     formData.append("staff", "67f55b7034b4da2503982dc0");
@@ -59,7 +62,7 @@ function StudentRequestForm() {
     formData.append("description", description);
     formData.append("department", "הנדסת תוכנה");
     formData.append("status", "ממתין");
-    formData.append("submissionDate", new Date().toISOString());
+    formData.append("submissionDate", submissionDate.toISOString());
 
     for (let i = 0; i < files.length; i++) {
       formData.append("documents", files[i]);
@@ -72,12 +75,22 @@ function StudentRequestForm() {
       });
 
       if (res.ok) {
-        setSuccess(true);
         setTopic("");
         setCourse("");
         setDescription("");
         setFiles([]);
         setRequiredDocs("");
+
+        // חישוב זמן טיפול: 3 ימי עסקים קדימה
+        const estimate = new Date(submissionDate);
+        let added = 0;
+        while (added < 3) {
+          estimate.setDate(estimate.getDate() + 1);
+          if (estimate.getDay() !== 5 && estimate.getDay() !== 6) added++; // לא שישי/שבת
+        }
+
+        setEstimatedDate(estimate);
+        setShowModal(true);
         setShowConfirmation(false);
       } else {
         const errMsg = await res.text();
@@ -180,8 +193,17 @@ function StudentRequestForm() {
               חזור
             </button>
           </div>
-          {success && <p className="success-msg">הבקשה נשלחה בהצלחה!</p>}
         </form>
+      )}
+
+      {showModal && (
+        <RequestSentModal
+          expectedDate={estimatedDate}
+          onClose={() => {
+            setShowModal(false);
+            setShowForm(false);
+          }}
+        />
       )}
 
       {showConfirmation && (
