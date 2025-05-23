@@ -21,6 +21,7 @@ pipeline {
                 '''
             }
         }
+
         stage('Install Backend Dependencies') {
             steps {
                 dir('backend') {
@@ -28,6 +29,7 @@ pipeline {
                 }
             }
         }
+
         stage('Run Backend Tests') {
             steps {
                 dir('backend') {
@@ -36,12 +38,13 @@ pipeline {
                         if (hasTestScript == "yes") {
                             sh 'npm test'
                         } else {
-                            echo 'Test stage skipped, no test script found in package.json'_
+                            echo 'Test stage skipped, no test script found in package.json'
                         }
                     }
                 }
             }
         }
+
         stage('Install Frontend Dependencies') { 
             steps {
                 dir('frontend') { 
