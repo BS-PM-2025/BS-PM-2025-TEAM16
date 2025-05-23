@@ -276,7 +276,7 @@
 }
 
 .transfer-button {
-  background-color: #a0e9fa; 
+  background-color: #a0e9fa;
   color: #ffffff;
   border: 2px solid #a0e9fa;
   padding: 10px 18px;
@@ -286,4 +286,3 @@
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
-
