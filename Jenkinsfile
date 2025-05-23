@@ -22,28 +22,43 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Install Backend Dependencies') {
             steps {
                 dir('backend') {
                     sh 'npm install'
                 }
             }
         }
-        stage('Test') {
-    steps {
-        dir('backend') {
-            script {
-                def hasTestScript = sh(script: "grep -q '\"test\"' package.json && echo yes || echo no", returnStdout: true).trim()
-                if (hasTestScript == "yes") {
-                    sh 'npm test'
-                } else {
-                    echo 'Test stage skipped, no test script found in package.json'
+
+        stage('Run Backend Tests') {
+            steps {
+                dir('backend') {
+                    script {
+                        def hasTestScript = sh(script: "grep -q '\"test\"' package.json && echo yes || echo no", returnStdout: true).trim()
+                        if (hasTestScript == "yes") {
+                            sh 'npm test'
+                        } else {
+                            echo 'Test stage skipped, no test script found in package.json'
+                        }
+                    }
                 }
             }
         }
-    }
-}
 
+        stage('Install Frontend Dependencies') { 
+            steps {
+                dir('frontend') { 
+                    sh 'npm install' 
+                }
+            }
+        }
 
+        stage('Run Frontend Tests') { 
+            steps {
+                dir('frontend') { 
+                    sh 'npm test -- --ci --verbose --detectOpenHandles'
+                }
+            }
+        }
     }
 }
