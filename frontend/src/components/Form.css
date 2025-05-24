@@ -1,0 +1,171 @@
+.form-container {
+  max-width: 950px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+/* טבלה */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  direction: rtl;
+  font-size: 1.1em;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 12px 16px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* שורת סינון עליונה */
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.filter-row input,
+.filter-row select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 180px;
+  transition: all 0.3s ease;
+}
+
+.filter-row select[multiple] {
+  height: 100px;
+}
+
+/* כפתור איפוס */
+.filter-row button {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.filter-row button:hover {
+  background-color: #c9302c;
+}
+
+/* סטייל טפסים פנימיים */
+.form-container input,
+.form-container select,
+.form-container button {
+  display: block;
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-container input:focus,
+.form-container select:focus {
+  border-color: #66aaff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(102, 170, 255, 0.5);
+}
+
+.form-container button {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+/* תצוגת מידע נוספת */
+.student-info {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.student-info p {
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+.dropdown-container {
+  display: inline-block;
+  position: relative;
+}
+
+.filter-icon {
+  margin-right: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #555;
+}
+
+.dropdown {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  min-width: 160px;
+}
+
+.dropdown label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95em;
+}
+
+.dropdown button {
+  margin-top: 10px;
+  width: 100%;
+  background-color: #8e44ad;
+  color: white;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dropdown button:hover {
+  background-color: #6c3483;
+}
