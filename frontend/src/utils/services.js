@@ -1,3 +1,4 @@
+
 export const USER_DATA_LOCAL_STORAGE_KEY = "projectFS";
 
 export const saveToLocalStorage = (key, value) => {
@@ -32,3 +33,4 @@ export const logout = () => {
 export const Validators = {
   exists: (value) => Boolean(value),
 };
+

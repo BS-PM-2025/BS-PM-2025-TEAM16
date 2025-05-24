@@ -6,6 +6,7 @@ const Course = require("../models/Course");
 const getRequestsForStaff = async (req, res) => {
   try {
     const staffUsername = req.query.staffUsername;
+
     const staffUser = await User.findOne({ username: staffUsername });
 
     if (!staffUser) return res.status(404).json({ message: "Staff not found" });

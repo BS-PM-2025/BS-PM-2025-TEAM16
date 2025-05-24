@@ -64,7 +64,6 @@ router.post("/", upload.array("documents"), async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // שליפת נתוני המשתמשים והקורסים
     const studentData = await User.findById(student);
     const staffData = await User.findById(staff);
     const courseData = await Course.findById(course);
@@ -94,12 +93,11 @@ router.post("/", upload.array("documents"), async (req, res) => {
 
     await newRequest.save();
 
-    // שליחת מייל לסגל
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: "dorin2107@gmail.com",
-        pass: "syhyigdbowmrtesa", // סיסמת אפליקציה מג'ימייל
+        pass: "syhyigdbowmrtesa"
       },
     });
 
@@ -130,8 +128,8 @@ router.post("/", upload.array("documents"), async (req, res) => {
   }
 });
 
-// שאר הקריאות לסטטוס / מחלקה / סטודנט
 router.get("/", isStaff, getRequestsForStaff);
+
 router.get("/department/:departmentName", async (req, res) => {
   try {
     const requests = await StudentRequest.find({
@@ -179,4 +177,5 @@ router.put("/transfer/:id", transferRequest);
 router.get("/by-status-and-staff", getRequestsForStaffByStatus);
 router.get("/by-student-id", getRequestsByStudentId);
 router.get("/requests", getRequestsForStudent);
+
 module.exports = router;
