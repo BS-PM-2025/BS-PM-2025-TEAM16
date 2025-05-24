@@ -65,7 +65,9 @@ export default function UserList() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className="reset-btn" onClick={resetFilters}>איפוס</button>
+        <button className="reset-btn" onClick={resetFilters}>
+          איפוס
+        </button>
       </div>
 
       <table>
@@ -74,7 +76,6 @@ export default function UserList() {
             <th>ת"ז</th>
             <th>שם פרטי</th>
             <th>שם משפחה</th>
-
             <th>
               תפקיד
               <div className="dropdown-container">
@@ -107,7 +108,6 @@ export default function UserList() {
                 )}
               </div>
             </th>
-
             <th>
               מחלקה
               <div className="dropdown-container">
@@ -128,7 +128,9 @@ export default function UserList() {
                             if (e.target.checked) {
                               setFilterDepartment([...filterDepartment, d]);
                             } else {
-                              setFilterDepartment(filterDepartment.filter((item) => item !== d));
+                              setFilterDepartment(
+                                filterDepartment.filter((item) => item !== d)
+                              );
                             }
                           }}
                         />
@@ -142,7 +144,6 @@ export default function UserList() {
             </th>
           </tr>
         </thead>
-
         <tbody>
           {filteredUsers.map((u, i) => (
             <tr key={i}>

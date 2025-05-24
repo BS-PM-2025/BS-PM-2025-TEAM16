@@ -29,9 +29,12 @@ const userSchema = new mongoose.Schema({
   },
   department: {
     type: String,
-    required: false ,
-  
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
   }
-
 });
+
 module.exports = mongoose.model("User", userSchema);

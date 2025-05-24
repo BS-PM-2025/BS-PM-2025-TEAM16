@@ -9,17 +9,14 @@ beforeEach(() => {
   );
 
   global.fetch = jest.fn()
-
     .mockResolvedValueOnce({
       ok: true,
       json: async () => [{ _id: "2", name: "דחיית הגשת עבודה" }],
     })
-
     .mockResolvedValueOnce({
       ok: true,
       json: async () => [{ _id: "1", name: "מבוא לקומפילציה" }],
     })
-
     .mockResolvedValueOnce({
       ok: true,
       text: async () => "",
@@ -48,7 +45,6 @@ test("מציג את המודל לאחר שליחה מוצלחת", async () => {
   await waitFor(() =>
     expect(screen.getByText("בקשתך נשלחה בהצלחה!")).toBeInTheDocument()
   );
-
 
   fireEvent.click(screen.getByText("סגור"));
   await waitFor(() =>

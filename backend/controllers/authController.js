@@ -13,11 +13,12 @@ const login = async (req, res) => {
     res.json({
       success: true,
       user: {
-        ID: user.ID,
+        _id: user._id.toString(),
         firstname: user.firstname,
         lastname: user.lastname,
         username: user.username,
-        role: user.role
+        role: user.role,
+        department: user.department
       }
     });
   } catch (err) {
@@ -26,4 +27,30 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { login };
+const resetPassword = async (req, res) => {
+  const { username, newPassword } = req.body;
+
+  if (!username || !newPassword) {
+    return res.status(400).json({ success: false, message: 'Missing username or new password' });
+  }
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    await User.updateOne(
+      { username },
+      { $set: { password: newPassword } }
+    );
+
+    res.json({ success: true, message: 'Password reset successfully' });
+  } catch (err) {
+    console.error('Reset password error:', err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+module.exports = { login, resetPassword };
