@@ -1,7 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import StudentRequestForm from "../StudentRequestForm";
 
-// נחליף את fetch ל־mock
 beforeEach(() => {
   localStorage.clear();
   localStorage.setItem(
@@ -10,24 +9,17 @@ beforeEach(() => {
   );
 
   global.fetch = jest.fn()
-    // קריאה ראשונה: topics
     .mockResolvedValueOnce({
       ok: true,
-      json: async () => [
-        { _id: "2", name: "דחיית הגשת עבודה" }
-      ],
+      json: async () => [{ _id: "2", name: "דחיית הגשת עבודה" }],
     })
-    // קריאה שנייה: courses
     .mockResolvedValueOnce({
       ok: true,
-      json: async () => [
-        { _id: "1", name: "מבוא לקומפילציה" }
-      ],
+      json: async () => [{ _id: "1", name: "מבוא לקומפילציה" }],
     })
-    // קריאה שלישית: שליחת בקשה
     .mockResolvedValueOnce({
       ok: true,
-      text: async () => "", // במקרה של שגיאה – שלא יתרסק
+      text: async () => "",
     });
 });
 
@@ -47,12 +39,13 @@ test("מציג את המודל לאחר שליחה מוצלחת", async () => {
   const submitBtn = screen.getByText("שלח בקשה");
   fireEvent.click(submitBtn);
 
-  // בדיקה אם המודל מופיע
+  const confirmBtn = await screen.findByText("אישור");
+  fireEvent.click(confirmBtn);
+
   await waitFor(() =>
     expect(screen.getByText("בקשתך נשלחה בהצלחה!")).toBeInTheDocument()
   );
 
-  // בדיקה של סגירת המודל
   fireEvent.click(screen.getByText("סגור"));
   await waitFor(() =>
     expect(screen.queryByText("בקשתך נשלחה בהצלחה!")).not.toBeInTheDocument()
