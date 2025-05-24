@@ -4,14 +4,9 @@
 
 .welcome {
   min-height: 100vh;
-<<<<<<< HEAD
-  background: linear-gradient(135deg, #A5DD9B, #51829B);
-  font-family: 'Poppins', sans-serif;
-=======
   width: 100vw;
   font-family: "Poppins", sans-serif;
   background: linear-gradient(135deg, #f9fafe, #e4efff);
->>>>>>> main
   padding: 60px 40px 100px;
   display: flex;
   justify-content: center;
@@ -20,8 +15,6 @@
   overflow-y: auto;
   direction: rtl;
   text-align: right;
-<<<<<<< HEAD
-=======
   position: relative;
 }
 
@@ -46,21 +39,10 @@
   bottom: 10%;
   right: -100px;
   background: #ffb6a0;
->>>>>>> main
 }
 
 .welcome-page-container {
   width: 100%;
-<<<<<<< HEAD
-  max-width: 1000px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
-  position: relative;
-  direction: rtl;
-  text-align: right;
-=======
   padding: 0 60px;
   display: flex;
   flex-direction: column;
@@ -68,7 +50,6 @@
   gap: 40px;
   position: relative;
   z-index: 2;
->>>>>>> main
 }
 
 .logout-container {
@@ -79,11 +60,7 @@
 }
 
 .logout-link {
-<<<<<<< HEAD
-  color: #ff4d4d;
-=======
   color: #e74c3c;
->>>>>>> main
   font-weight: bold;
   font-size: 16px;
   text-decoration: none;
@@ -91,36 +68,11 @@
 }
 
 .logout-link:hover {
-<<<<<<< HEAD
-  color: #ff1a1a;
-=======
   color: #c0392b;
->>>>>>> main
   text-decoration: underline;
 }
 
 .welcome-header-box {
-<<<<<<< HEAD
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(10px);
-  padding: 40px 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  color: white;
-  text-align: center;
-  width: 100%;
-  border: 1px solid rgba(255,255,255,0.2);
-  max-width: 800px;
-  margin: 0 auto;
-  direction: rtl;
-}
-
-.welcome-header-box h2 {
-  font-size: 40px;
-  color: #ffffff;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  margin-bottom: 20px;
-=======
   background-color: #ffffff;
   padding: 40px 30px;
   border-radius: 20px;
@@ -135,45 +87,18 @@
   font-size: 36px;
   margin-bottom: 20px;
   color: #2c3e50;
->>>>>>> main
 }
 
 .welcome-header-box p {
   font-size: 18px;
-<<<<<<< HEAD
-  color: #f0f0f0;
-  background: rgba(255, 255, 255, 0.08);
-=======
   color: #555;
   background-color: #f2f2f2;
->>>>>>> main
   padding: 12px 20px;
   border-radius: 12px;
   display: inline-block;
 }
 
 .requests-box {
-<<<<<<< HEAD
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(10px);
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  color: white;
-  width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  max-width: 800px;
-  margin: 0 auto;
-  direction: rtl;
-  text-align: right;
-}
-
-.requests-box h3 {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #ffffff;
-=======
   background-color: #ffffff;
   padding: 30px;
   border-radius: 20px;
@@ -188,7 +113,6 @@
   font-weight: bold;
   margin-bottom: 20px;
   color: #2c3e50;
->>>>>>> main
 }
 
 .requests-box table {
@@ -199,40 +123,12 @@
 
 .requests-box th,
 .requests-box td {
-<<<<<<< HEAD
-  border: 1px solid rgba(255,255,255,0.3);
-=======
   border: 1px solid #ddd;
->>>>>>> main
   padding: 10px;
   text-align: right;
 }
 
 .requests-box th {
-<<<<<<< HEAD
-  background: rgba(255, 255, 255, 0.15);
-  font-weight: bold;
-  color: #fff;
-}
-
-.requests-box td {
-  background: rgba(255, 255, 255, 0.05);
-  color: #f8f8f8;
-}
-
-.request-details-box {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  border-radius: 16px;
-  padding: 25px;
-  color: #fff;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  width: 100%;
-  max-width: 800px;
-  margin-bottom: 50px;
-  direction: rtl;
-  text-align: right;
-=======
   background-color: #f5f5f5;
   font-weight: bold;
   color: #333;
@@ -251,7 +147,6 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   width: 100%;
   margin-bottom: 50px;
->>>>>>> main
 }
 
 .request-details-box h3 {
@@ -265,29 +160,17 @@
   margin: 6px 0;
 }
 
-<<<<<<< HEAD
-.request-details-box button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #ffffff22;
-  color: white;
-=======
 .close-button,
 .approve-button,
 .reject-button {
   margin-top: 20px;
   padding: 10px 20px;
->>>>>>> main
   border: none;
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
 }
 
-<<<<<<< HEAD
-.request-details-box button:hover {
-  background-color: #ffffff33;
-=======
 .close-button {
   background-color: #f1f1f1;
   color: #333;
@@ -379,20 +262,6 @@
 }
 
 .transfer-button {
-  background-color: #6c63ff;
-  color: white;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.transfer-button:hover {
-  background-color: #aae8f9;
-}
-
-.transfer-button {
   background-color: #a0e9fa;
   color: #ffffff;
   border: 2px solid #a0e9fa;
@@ -402,5 +271,8 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
->>>>>>> main
+}
+
+.transfer-button:hover {
+  background-color: #aae8f9;
 }
