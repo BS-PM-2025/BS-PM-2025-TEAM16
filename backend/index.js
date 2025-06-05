@@ -1,4 +1,3 @@
-
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -12,6 +11,7 @@ app.use(cors());
 const authRoutes = require("./routes/authRoutes");
 const studentRequestsRouter = require("./routes/studentRequests");
 const userRoutes = require("./routes/users");
+const answerTemplatesRouter = require("./routes/answerTemplate");
 
 // שימוש בראוטים
 app.use("/api", authRoutes);
@@ -19,6 +19,7 @@ app.use("/api/staff/requests", studentRequestsRouter);
 app.use("/api/requests", studentRequestsRouter);
 app.use("/users", userRoutes);
 app.use("/api/student", studentRequestsRouter);
+app.use("/api/answer-templates", answerTemplatesRouter);
 
 // ייבוא מודלים לשליפת נושאים וקורסים
 const RequestType = require("./models/RequestType");
@@ -89,4 +90,3 @@ module.exports = {
   startServer,
   stopServer,
 };
-
