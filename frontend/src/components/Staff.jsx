@@ -3,6 +3,7 @@ import axios from "axios";
 import Header from "../header";
 import { getFromLocalStorage } from "../utils/services";
 import "./Welcome.css";
+import CreateTemplate from "./CreateTemplate";
 export const ID_PLACEHOLDER = "הקלד ת.ז של סטודנט";
 
 const Staff = () => {
@@ -15,6 +16,9 @@ const Staff = () => {
   const [staffList, setStaffList] = useState([]);
   const [selectedStaffId, setSelectedStaffId] = useState("");
   const [commentText, setCommentText] = useState("");
+  const [templates, setTemplates] = useState([]);
+  const [selectedTemplate, setSelectedTemplate] = useState("");
+  const [showTemplateBox, setShowTemplateBox] = useState(false);
 
   useEffect(() => {
     const data = getFromLocalStorage("projectFS");
@@ -41,15 +45,30 @@ const Staff = () => {
         const staffOnly = res.data.filter((user) => user.role === "Staff");
         setStaffList(staffOnly);
       });
+
+      axios
+        .get("http://localhost:3006/api/answer-templates")
+        .then((res) => {
+          console.log("Templates received:", res.data);
+          setTemplates(res.data);
+        })
+        .catch((err) => console.error("Error loading templates", err));
     } else {
       setIsLoading(false);
     }
   }, [statusFilter, studentIdFilter]);
 
+  const getTempAnswer = () => {
+    if (selectedTemplate && commentText)
+      return `${selectedTemplate} - ${commentText}`;
+    if (selectedTemplate) return selectedTemplate;
+    return commentText;
+  };
+
   const handleApprove = (id) => {
     axios
       .put(`http://localhost:3006/api/staff/requests/approve/${id}`, {
-        comment: commentText,
+        comment: getTempAnswer(),
       })
       .then(() => {
         alert("הבקשה אושרה");
@@ -60,6 +79,7 @@ const Staff = () => {
           prev ? { ...prev, status: "אושר" } : prev
         );
         setCommentText("");
+        setSelectedTemplate("");
       })
       .catch(() => alert("שגיאה באישור הבקשה"));
   };
@@ -67,7 +87,7 @@ const Staff = () => {
   const handleReject = (id) => {
     axios
       .put(`http://localhost:3006/api/staff/requests/reject/${id}`, {
-        comment: commentText,
+        comment: getTempAnswer(),
       })
       .then(() => {
         alert("הבקשה נדחתה");
@@ -78,6 +98,7 @@ const Staff = () => {
           prev ? { ...prev, status: "נדחה" } : prev
         );
         setCommentText("");
+        setSelectedTemplate("");
       })
       .catch(() => alert("שגיאה בדחיית הבקשה"));
   };
@@ -195,6 +216,23 @@ const Staff = () => {
           )}
         </div>
 
+        <div className="templates-box">
+          <h3
+            className="templates-title"
+            style={{ cursor: "pointer" }}
+            onClick={() => setShowTemplateBox((prev) => !prev)}
+          >
+            {showTemplateBox
+              ? "סגור תיבת הוספת תבנית"
+              : "הוספת תבנית תשובה חדשה"}
+          </h3>
+
+          {showTemplateBox && (
+            <div className="template-form-wrapper">
+              <CreateTemplate />
+            </div>
+          )}
+        </div>
         {selectedRequest && (
           <div className="request-details-box">
             <h2>פרטי הבקשה</h2>
@@ -221,14 +259,32 @@ const Staff = () => {
 
             <div style={{ marginTop: "1em" }}>
               <label className="form-label">
-                <strong>הוספת הערה לפני אישור/דחייה:</strong>
+                <strong>בחירת תשובה מהירה:</strong>
+              </label>
+              <select
+                className="form-input"
+                value={selectedTemplate}
+                onChange={(e) => setSelectedTemplate(e.target.value)}
+              >
+                <option value="">ללא תגובה</option>
+                {templates.map((template, idx) => (
+                  <option key={idx} value={template.text}>
+                    {template.text}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div style={{ marginTop: "1em" }}>
+              <label className="form-label">
+                <strong>הוספת תשובה כתובה</strong>
               </label>
               <textarea
                 className="form-input"
                 rows="3"
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                placeholder="כתוב כאן את ההערה שלך"
+                placeholder="כתוב כאן את התשובה שלך"
               />
             </div>
 
@@ -287,7 +343,6 @@ const Staff = () => {
       </div>
     </div>
   );
-
 };
 
 export default Staff;
