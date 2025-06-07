@@ -12,6 +12,7 @@ const authRoutes = require("./routes/authRoutes");
 const studentRequestsRouter = require("./routes/studentRequests");
 const userRoutes = require("./routes/users");
 const answerTemplatesRouter = require("./routes/answerTemplate");
+const chatbotRoutes = require("./routes/chatbot");
 
 // שימוש בראוטים
 app.use("/api", authRoutes);
@@ -20,6 +21,7 @@ app.use("/api/requests", studentRequestsRouter);
 app.use("/users", userRoutes);
 app.use("/api/student", studentRequestsRouter);
 app.use("/api/answer-templates", answerTemplatesRouter);
+app.use("/api", chatbotRoutes);
 
 // ייבוא מודלים לשליפת נושאים וקורסים
 const RequestType = require("./models/RequestType");
