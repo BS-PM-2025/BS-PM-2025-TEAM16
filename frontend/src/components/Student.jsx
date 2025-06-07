@@ -5,6 +5,7 @@ import StudentRequestForm from "../components/StudentRequestForm";
 import "./Welcome.css";
 import StudentStatus from "./StudentStatus";
 import StudentRequestsTable from "./StudentRequestsTable";
+import ChatBotBox from "./ChatBotBox";
 
 const Student = () => {
   const [userData, setUserData] = useState(null);
@@ -47,9 +48,9 @@ const Student = () => {
           <StudentRequestsTable requests={requests} />
         </div>
       </div>
+      <ChatBotBox />
     </div>
   );
 };
-
 
 export default Student;
