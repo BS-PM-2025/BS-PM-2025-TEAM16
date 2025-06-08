@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Form.css";
+import { BaseUser, Staff, Student } from "../models/user";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
@@ -15,7 +16,17 @@ export default function UserList() {
     axios
       .get("http://localhost:3006/users/all-users")
       .then((res) => {
-        setUsers(res.data);
+        setUsers(
+          res.data.map((user) => {
+            if (user.role === "student") {
+              return new Student(user);
+            }
+            if (user.role === "staff") {
+              return new Staff(user);
+            }
+            return new BaseUser(user);
+          })
+        );
         setFilteredUsers(res.data);
       })
       .catch((err) => console.error("שגיאה בטעינת המשתמשים", err));
@@ -96,7 +107,9 @@ export default function UserList() {
                             if (e.target.checked) {
                               setFilterRole([...filterRole, r]);
                             } else {
-                              setFilterRole(filterRole.filter((item) => item !== r));
+                              setFilterRole(
+                                filterRole.filter((item) => item !== r)
+                              );
                             }
                           }}
                         />
@@ -137,7 +150,9 @@ export default function UserList() {
                         {d}
                       </label>
                     ))}
-                    <button onClick={() => setFilterDepartment([])}>איפוס</button>
+                    <button onClick={() => setFilterDepartment([])}>
+                      איפוס
+                    </button>
                   </div>
                 )}
               </div>
