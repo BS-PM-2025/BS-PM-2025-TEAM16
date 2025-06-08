@@ -1,0 +1,51 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  width: 100%;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.header-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  height: 40px;
+  max-width: 160px;
+  object-fit: contain;
+}
+
+.logout-button {
+  background: linear-gradient(to right, #ff6a6a, #ff3d3d);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logout-button:hover {
+  transform: scale(1.05);
+}
+
+.welcome-message {
+  font-size: 20px;
+  font-weight: bold;
+  color: #2c3e50;
+  text-align: center;
+  flex-grow: 1;
+}

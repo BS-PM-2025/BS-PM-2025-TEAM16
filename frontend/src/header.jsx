@@ -1,24 +1,35 @@
 import { useNavigate } from "react-router-dom";
-
-import { logout } from './utils/services';
+import { logout, getFromLocalStorage } from "./utils/services";
+import "./header.css";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const userData = getFromLocalStorage("projectFS");
 
-    const navigate = useNavigate();
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logout();
+    return navigate("/");
+  };
 
-    const handleLogout = (e) => {
-        e.preventDefault();
-        logout();
-        return navigate('/');
+  return (
+    <header className="header">
+      <div className="header-logo-container">
+        <img src="/studiTrack.png" alt="logo" className="header-logo" />
+      </div>
 
-    }
-    return (<div className="header">
-        <div className="nav-conatiner">
-            <nav>
-                <div className="item"><a href="#" onClick={handleLogout} className="logout-link">התנתק</a>
-                </div>
-            </nav>
+      {userData?.user?.firstname && userData?.user?.lastname && (
+        <div className="welcome-message">
+          ברוך הבא לאזור האישי שלך {userData.user.firstname}{" "}
+          {userData.user.lastname}
         </div>
-    </div>)
-}
+      )}
+
+      <button className="logout-button" onClick={handleLogout}>
+        התנתקות
+      </button>
+    </header>
+  );
+};
+
 export default Header;

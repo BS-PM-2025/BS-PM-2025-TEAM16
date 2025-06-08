@@ -18,6 +18,11 @@ const mockRequest = {
   staffComments: [],
 };
 
+beforeAll(() => {
+  window.scrollTo = jest.fn();
+  Element.prototype.scrollIntoView = jest.fn();
+});
+
 test("approve Request", async () => {
   window.alert = jest.fn();
 

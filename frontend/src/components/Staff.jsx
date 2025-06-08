@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Header from "../header";
 import { getFromLocalStorage } from "../utils/services";
-import "./Welcome.css";
-import CreateTemplate from "./CreateTemplate";
+import "./Staff.css";
+import StaffRequestsTable from "./StaffRequestsTable";
+import StaffRequestDetailsBox from "./StaffRequestDetailsBox";
+import StaffRequestFilters from "./StaffRequestFilters";
+import StaffTemplateBox from "./StaffTemplateBox";
+import StaffChart from "./StaffChart";
 export const ID_PLACEHOLDER = "הקלד ת.ז של סטודנט";
 
 const Staff = () => {
@@ -11,7 +15,7 @@ const Staff = () => {
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState(null);
-  const [statusFilter, setStatusFilter] = useState("ממתין");
+  const [statusFilter, setStatusFilter] = useState("");
   const [studentIdFilter, setStudentIdFilter] = useState("");
   const [staffList, setStaffList] = useState([]);
   const [selectedStaffId, setSelectedStaffId] = useState("");
@@ -19,21 +23,29 @@ const Staff = () => {
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [showTemplateBox, setShowTemplateBox] = useState(false);
+  const [showChart, setShowChart] = useState(false);
+
+  const requestDetailsRef = useRef(null);
 
   useEffect(() => {
     const data = getFromLocalStorage("projectFS");
     setUserData(data);
 
     if (data?.user?.username) {
-      let url = `http://localhost:3006/api/staff/requests/by-status-and-staff?staffUsername=${data.user.username}&status=${statusFilter}`;
+      let url = "";
+
       if (studentIdFilter) {
         url = `http://localhost:3006/api/staff/requests/by-student-id?studentId=${studentIdFilter}`;
+      } else if (statusFilter) {
+        url = `http://localhost:3006/api/staff/requests/by-status-and-staff?staffUsername=${data.user.username}&status=${statusFilter}`;
+      } else {
+        url = `http://localhost:3006/api/staff/requests?staffUsername=${data.user.username}`;
       }
-
       axios
         .get(url, { headers: { "user-role": "Staff" } })
         .then((res) => {
           setRequests(res.data);
+          console.log(res.data);
           setIsLoading(false);
         })
         .catch((err) => {
@@ -57,6 +69,15 @@ const Staff = () => {
       setIsLoading(false);
     }
   }, [statusFilter, studentIdFilter]);
+
+  useEffect(() => {
+    if (selectedRequest && requestDetailsRef.current) {
+      requestDetailsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [selectedRequest]);
 
   const getTempAnswer = () => {
     if (selectedTemplate && commentText)
@@ -120,226 +141,99 @@ const Staff = () => {
       .catch(() => alert("שגיאה בהעברת הבקשה"));
   };
 
+  const numPending = requests.filter((r) => r.status === "ממתין").length;
+  const numApproved = requests.filter((r) => r.status === "אושר").length;
+  const numRejected = requests.filter((r) => r.status === "נדחה").length;
+  const pieData = [
+    { name: "ממתין", value: numPending },
+    { name: "אושר", value: numApproved },
+    { name: "נדחה", value: numRejected },
+  ];
+
   return (
-    <div className="welcome" dir="rtl">
-      <div className="welcome-page-container">
+    <div className="staff" dir="rtl">
+      <div className="staff-page-container">
         <Header />
-
-        {userData && (
-          <div className="welcome-header-box">
-            <h2>ברוך הבא לאזור האישי שלך {userData.user.username}</h2>
-          </div>
-        )}
-
         <div className="requests-box">
           <h3>בקשות סטודנטים לטיפולך:</h3>
+          <button
+            className="chart-button"
+            onClick={() => setShowChart((prev) => !prev)}
+          >
+            {showChart ? "הסתר גרף" : "הצג גרף"}
+          </button>
 
-          <div className="status-container">
-            <label htmlFor="status-select" className="status-label">
-              סינון לפי סטטוס:
-            </label>
-            <select
-              id="status-select"
-              className="status-select"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              disabled={studentIdFilter !== ""}
+          {showChart && <StaffChart pieData={pieData} />}
+
+          {statusFilter === "" ? (
+            <div className="status-count-wrapper">
+              <div className="status-count-box pending">
+                בקשות ממתינות: {numPending}
+              </div>
+              <div className="status-count-box approved">
+                בקשות שאושרו: {numApproved}
+              </div>
+              <div className="status-count-box rejected">
+                בקשות שנדחו: {numRejected}
+              </div>
+            </div>
+          ) : (
+            <div
+              className={`status-count-box ${
+                statusFilter === "ממתין"
+                  ? "pending"
+                  : statusFilter === "אושר"
+                  ? "approved"
+                  : "rejected"
+              }`}
             >
-              <option value="ממתין">ממתין</option>
-              <option value="אושר">אושר</option>
-              <option value="נדחה">נדחה</option>
-            </select>
-
-            <label htmlFor="student-id-input" className="status-label">
-              הזן תעודת זהות לסינון:
-            </label>
-            <input
-              id="student-id-input"
-              type="text"
-              placeholder={ID_PLACEHOLDER}
-              className="id-input"
-              value={studentIdFilter}
-              onChange={(e) => setStudentIdFilter(e.target.value)}
-            />
-          </div>
+              {statusFilter === "ממתין"
+                ? `בקשות ממתינות: ${numPending}`
+                : statusFilter === "אושר"
+                ? `בקשות שאושרו: ${numApproved}`
+                : `בקשות שנדחו: ${numRejected}`}
+            </div>
+          )}
+          <StaffRequestFilters
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+            studentIdFilter={studentIdFilter}
+            setStudentIdFilter={setStudentIdFilter}
+          />
 
           {isLoading ? (
             <p>...טוען בקשות</p>
           ) : (
-            <table border="1" className="requests-table">
-              <thead>
-                <tr>
-                  <th>שם הסטודנט</th>
-                  <th>ת.ז</th>
-                  <th>נושא הבקשה</th>
-                  <th>קורס</th>
-                  <th>סטטוס</th>
-                  <th>הערת סגל</th>
-                  <th>תאריך הגשה</th>
-                </tr>
-              </thead>
-              <tbody>
-                {requests.length === 0 ? (
-                  <tr>
-                    <td colSpan="6">לא קיימות בקשות בסטטוס {statusFilter}</td>
-                  </tr>
-                ) : (
-                  requests.map((req) =>
-                    req.student && req.staff ? (
-                      <tr
-                        key={req._id}
-                        onClick={() => setSelectedRequest(req)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        <td>
-                          {req.student.firstname} {req.student.lastname}
-                        </td>
-                        <td>{req.student.id}</td>
-                        <td>{req.requestType?.name || "—"}</td>
-                        <td>{req.course?.name || "—"}</td>
-                        <td>{req.status}</td>
-                        <td>
-                          {req.staffComments.length > 0
-                            ? req.staffComments[req.staffComments.length - 1]
-                                .comment
-                            : "-"}
-                        </td>
-                        <td>
-                          {new Date(req.submissionDate).toLocaleDateString()}
-                        </td>
-                      </tr>
-                    ) : null
-                  )
-                )}
-              </tbody>
-            </table>
+            <StaffRequestsTable
+              requests={requests}
+              setSelectedRequest={setSelectedRequest}
+            />
           )}
         </div>
 
-        <div className="templates-box">
-          <h3
-            className="templates-title"
-            style={{ cursor: "pointer" }}
-            onClick={() => setShowTemplateBox((prev) => !prev)}
-          >
-            {showTemplateBox
-              ? "סגור תיבת הוספת תבנית"
-              : "הוספת תבנית תשובה חדשה"}
-          </h3>
-
-          {showTemplateBox && (
-            <div className="template-form-wrapper">
-              <CreateTemplate />
-            </div>
-          )}
-        </div>
         {selectedRequest && (
-          <div className="request-details-box">
-            <h2>פרטי הבקשה</h2>
-            <p>
-              <strong>שם הסטודנט:</strong> {selectedRequest.student.firstname}{" "}
-              {selectedRequest.student.lastname}
-            </p>
-            <p>
-              <strong>קורס:</strong> {selectedRequest.course?.name}
-            </p>
-            <p>
-              <strong>נושא:</strong> {selectedRequest.requestType?.name}
-            </p>
-            <p>
-              <strong>תיאור הבקשה:</strong> {selectedRequest.description}
-            </p>
-            <p>
-              <strong>סטטוס:</strong> {selectedRequest.status}
-            </p>
-            <p>
-              <strong>תאריך הגשה:</strong>{" "}
-              {new Date(selectedRequest.submissionDate).toLocaleDateString()}
-            </p>
-
-            <div style={{ marginTop: "1em" }}>
-              <label className="form-label">
-                <strong>בחירת תשובה מהירה:</strong>
-              </label>
-              <select
-                className="form-input"
-                value={selectedTemplate}
-                onChange={(e) => setSelectedTemplate(e.target.value)}
-              >
-                <option value="">ללא תגובה</option>
-                {templates.map((template, idx) => (
-                  <option key={idx} value={template.text}>
-                    {template.text}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div style={{ marginTop: "1em" }}>
-              <label className="form-label">
-                <strong>הוספת תשובה כתובה</strong>
-              </label>
-              <textarea
-                className="form-input"
-                rows="3"
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                placeholder="כתוב כאן את התשובה שלך"
-              />
-            </div>
-
-            <div style={{ marginTop: "1em" }}>
-              <label className="form-label">
-                <strong>העבר בקשה לאיש סגל אחר:</strong>
-              </label>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  marginTop: "5px",
-                }}
-              >
-                <select
-                  className="form-input"
-                  value={selectedStaffId}
-                  onChange={(e) => setSelectedStaffId(e.target.value)}
-                >
-                  <option value="">בחר איש סגל</option>
-                  {staffList.map((staff) => (
-                    <option key={staff._id} value={staff._id}>
-                      {staff.firstname} {staff.lastname}
-                    </option>
-                  ))}
-                </select>
-                <button className="transfer-button" onClick={handleTransfer}>
-                  העבר בקשה
-                </button>
-              </div>
-            </div>
-
-            <div style={{ marginTop: "1.5em", display: "flex", gap: "10px" }}>
-              <button
-                className="approve-button"
-                onClick={() => handleApprove(selectedRequest._id)}
-              >
-                אישור
-              </button>
-              <button
-                className="reject-button"
-                onClick={() => handleReject(selectedRequest._id)}
-              >
-                דחה
-              </button>
-              <button
-                className="close-button"
-                onClick={() => setSelectedRequest(null)}
-              >
-                סגור
-              </button>
-            </div>
+          <div ref={requestDetailsRef}>
+            <StaffRequestDetailsBox
+              selectedRequest={selectedRequest}
+              selectedTemplate={selectedTemplate}
+              templates={templates}
+              commentText={commentText}
+              setSelectedTemplate={setSelectedTemplate}
+              setCommentText={setCommentText}
+              selectedStaffId={selectedStaffId}
+              setSelectedStaffId={setSelectedStaffId}
+              staffList={staffList}
+              handleTransfer={handleTransfer}
+              handleApprove={handleApprove}
+              handleReject={handleReject}
+              setSelectedRequest={setSelectedRequest}
+            />
           </div>
         )}
+        <StaffTemplateBox
+          showTemplateBox={showTemplateBox}
+          setShowTemplateBox={setShowTemplateBox}
+        />
       </div>
     </div>
   );

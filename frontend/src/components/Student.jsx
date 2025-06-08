@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../header";
 import { getFromLocalStorage } from "../utils/services";
 import StudentRequestForm from "../components/StudentRequestForm";
-import "./Welcome.css";
+//import "./Welcome.css";
 import StudentStatus from "./StudentStatus";
 import StudentRequestsTable from "./StudentRequestsTable";
 import ChatBotBox from "./ChatBotBox";

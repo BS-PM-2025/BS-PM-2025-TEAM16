@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
 import { API_URL } from "../utils/resources";
-import { saveToLocalStorage, getFromLocalStorage, Validators } from "../utils/services";
+import {
+  saveToLocalStorage,
+  getFromLocalStorage,
+  Validators,
+} from "../utils/services";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -62,64 +66,78 @@ function Login() {
   };
 
   return (
-    <div className="login-page-container">
-      <div className="login-box">
-        <h2>התחברות</h2>
-        <form onSubmit={handleLogin}>
-          <div>
-            <label>
-              שם משתמש
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              {usernameError && <div className="error">{usernameError}</div>}
-            </label>
-          </div>
+    <div className="login-page">
+      <div className="login-page-container">
+        <div className="login-logo">
+          <img src="/studiTrack.png" alt="StudiTrack Logo" />
+        </div>
 
-          <div>
-            <label>
-              סיסמה
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {passwordError && <div className="error">{passwordError}</div>}
-            </label>
+        <div className="login-box">
+          <h2>התחברות</h2>
+          <form onSubmit={handleLogin}>
+            <div>
+              <label>
+                שם משתמש
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                {usernameError && <div className="error">{usernameError}</div>}
+              </label>
+            </div>
 
-            <div className="password-options" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
-              <label htmlFor="showPassword">הצג סיסמה</label>
-              <input
-                type="checkbox"
-                id="showPassword"
-                checked={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
+            <div>
+              <label>
+                סיסמה
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {passwordError && <div className="error">{passwordError}</div>}
+              </label>
 
-              <button
-                type="button"
-                onClick={() => navigate('/forgot-password')}
+              <div
+                className="password-options"
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#007bff',
-                  textDecoration: 'underline',
-                  cursor: 'pointer',
-                  padding: 0,
-                  fontSize: '0.9em',
-                  marginRight: 'auto'
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: "10px",
                 }}
               >
-                שכחתי סיסמה?
-              </button>
-            </div>
-          </div>
+                <label htmlFor="showPassword">הצג סיסמה</label>
+                <input
+                  type="checkbox"
+                  id="showPassword"
+                  checked={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                />
 
-          {error && <div className="error">{error}</div>}
-          <button type="submit">התחבר</button>
-        </form>
+                <button
+                  type="button"
+                  onClick={() => navigate("/forgot-password")}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#007bff",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                    padding: 0,
+                    fontSize: "0.9em",
+                    marginRight: "auto",
+                  }}
+                >
+                  שכחתי סיסמה?
+                </button>
+              </div>
+            </div>
+
+            {error && <div className="error">{error}</div>}
+            <button type="submit">התחבר</button>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -5,6 +5,11 @@ import Staff from "../Staff";
 
 jest.mock("axios");
 
+beforeAll(() => {
+  Element.prototype.scrollIntoView = jest.fn();
+  window.scrollTo = jest.fn();
+});
+
 describe("temp answer", () => {
   beforeEach(() => {
     localStorage.setItem(

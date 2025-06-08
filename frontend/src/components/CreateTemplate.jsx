@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./Welcome.css";
+import "./Staff.css";
 
 const CreateTemplate = () => {
   const [name, setName] = useState("");
@@ -33,7 +33,7 @@ const CreateTemplate = () => {
       <label htmlFor="template-name">שם התבנית:</label>
       <input
         id="template-name"
-        className="form-input"
+        className="staff-form-input"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
@@ -42,7 +42,7 @@ const CreateTemplate = () => {
       <label htmlFor="template-text">תוכן התשובה:</label>
       <textarea
         id="template-text"
-        className="form-input"
+        className="staff-form-input"
         rows="4"
         value={text}
         onChange={(e) => setText(e.target.value)}
