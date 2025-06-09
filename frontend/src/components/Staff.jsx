@@ -97,6 +97,7 @@ const Staff = () => {
         setRequests((prev) =>
           prev.map((r) => (r._id === id ? { ...r, status: "אושר" } : r))
         );
+        setSelectedRequest(null);
         setSelectedRequest((prev) =>
           prev ? { ...prev, status: "אושר" } : prev
         );
@@ -119,6 +120,7 @@ const Staff = () => {
         setSelectedRequest((prev) =>
           prev ? { ...prev, status: "נדחה" } : prev
         );
+        setSelectedRequest(null);
         setCommentText("");
         setSelectedTemplate("");
       })
