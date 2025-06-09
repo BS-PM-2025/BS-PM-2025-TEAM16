@@ -12,7 +12,7 @@ const authRoutes = require("./routes/authRoutes");
 const studentRequestsRouter = require("./routes/studentRequests");
 const userRoutes = require("./routes/users");
 const answerTemplatesRouter = require("./routes/answerTemplate");
-const chatbotRoutes = require("./routes/chatbot");
+const chatbotRoutes = require("./routes/chatBot");
 
 // שימוש בראוטים
 app.use("/api", authRoutes);
