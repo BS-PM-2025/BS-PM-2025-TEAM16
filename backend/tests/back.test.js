@@ -9,7 +9,7 @@ beforeEach(async () => {
     lastname: "User",
     username: "testuser",
     password: "testpass",
-    role: "Admin",
+    role: "admin",
     department: "Testdepart",
     email: "test@email.com",
   });
@@ -31,7 +31,7 @@ describe("integration Test", () => {
       firstname: "Test",
       lastname: "User",
       username: "testuser",
-      role: "Admin",
+      role: "admin",
       department: "Testdepart",
     });
   });

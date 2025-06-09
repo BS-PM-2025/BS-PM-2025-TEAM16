@@ -20,6 +20,7 @@ const login = async (req, res) => {
         lastname: user.lastname,
         username: user.username,
         role: user.role,
+        position: user.position,
         department: user.department,
         email: user.email,
         employeeId: user.employeeId || "",

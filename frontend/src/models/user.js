@@ -15,6 +15,7 @@ export class Staff extends BaseUser {
   constructor(user) {
     super(user);
     this.employeeId = user.employeeId;
+    this.position = user.position;
   }
 }
 

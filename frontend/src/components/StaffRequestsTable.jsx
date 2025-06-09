@@ -1,6 +1,6 @@
 import React from "react";
 
-const StaffRequestsTable = ({ requests, setSelectedRequest }) => {
+const StaffRequestsTable = ({ requests, setSelectedRequest, position }) => {
   return (
     <table border="1" className="requests-table">
       <thead>
@@ -9,6 +9,7 @@ const StaffRequestsTable = ({ requests, setSelectedRequest }) => {
           <th>ת.ז</th>
           <th>נושא הבקשה</th>
           <th>קורס</th>
+          {position === "secretary" && <th>מרצה אחראי</th>}
           <th>סטטוס</th>
           <th>הערת סגל</th>
           <th>תאריך הגשה</th>
@@ -17,7 +18,9 @@ const StaffRequestsTable = ({ requests, setSelectedRequest }) => {
       <tbody>
         {requests.length === 0 ? (
           <tr>
-            <td colSpan="7">לא קיימות בקשות</td>
+            <td colSpan={position === "secretary" ? "8" : "7"}>
+              לא קיימות בקשות
+            </td>
           </tr>
         ) : (
           requests.map((req) =>
@@ -33,6 +36,11 @@ const StaffRequestsTable = ({ requests, setSelectedRequest }) => {
                 <td>{req.student.id}</td>
                 <td>{req.requestType?.name || "—"}</td>
                 <td>{req.course?.name || "—"}</td>
+                {position === "secretary" && (
+                  <td>
+                    {req.staff?.firstname} {req.staff?.lastname}
+                  </td>
+                )}
                 <td className={req.status}>{req.status}</td>
                 <td>
                   {req.staffComments.length > 0

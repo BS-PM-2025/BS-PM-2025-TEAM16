@@ -12,6 +12,7 @@ export const ID_PLACEHOLDER = "הקלד ת.ז של סטודנט";
 
 const Staff = () => {
   const [userData, setUserData] = useState(null);
+  const [position, setPosition] = useState(null);
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -30,7 +31,7 @@ const Staff = () => {
   useEffect(() => {
     const data = getFromLocalStorage("projectFS");
     setUserData(data);
-
+    setPosition(data?.user?.position);
     if (data?.user?.username) {
       let url = "";
 
@@ -207,6 +208,7 @@ const Staff = () => {
             <StaffRequestsTable
               requests={requests}
               setSelectedRequest={setSelectedRequest}
+              position={position}
             />
           )}
         </div>

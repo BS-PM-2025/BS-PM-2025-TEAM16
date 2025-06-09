@@ -35,9 +35,9 @@ const App = () => {
 
         {/* סגל */}
         <Route
-          path="/staff"
+          path="/Staff"
           element={
-            <ProtectedRoute allowedRole="Staff">
+            <ProtectedRoute allowedRole="staff">
               <Staff />
             </ProtectedRoute>
           }

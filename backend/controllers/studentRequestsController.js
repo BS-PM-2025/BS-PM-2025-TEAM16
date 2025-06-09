@@ -11,13 +11,30 @@ const getRequestsForStaff = async (req, res) => {
 
     if (!staffUser) return res.status(404).json({ message: "Staff not found" });
 
-    const requests = await StudentRequest.find({ staff: staffUser._id })
-      .populate("student", "firstname lastname id department")
-      .populate("staff", "firstname lastname")
-      .populate("requestType", "name")
-      .populate("course", "name");
+    if (staffUser.position === "lecturer") {
+      const courses = await Course.find({ lecturer: staffUser._id });
+      const courseIds = courses.map((course) => course._id);
+      const requests = await StudentRequest.find({ course: { $in: courseIds } })
+        .populate("student", "firstname lastname id department")
+        .populate("staff", "firstname lastname")
+        .populate("requestType", "name")
+        .populate("course", "name");
 
-    res.json(requests);
+      return res.json(requests);
+    }
+    if (staffUser.position === "secretary") {
+      const requests = await StudentRequest.find()
+        .populate("student", "firstname lastname id department")
+        .populate("staff", "firstname lastname")
+        .populate("requestType", "name")
+        .populate("course", "name department");
+
+      const filtered = requests.filter(
+        (r) => r.course?.department === staffUser.department
+      );
+      return res.json(filtered);
+    }
+    res.status(403).json({ message: "Unauthorized role" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

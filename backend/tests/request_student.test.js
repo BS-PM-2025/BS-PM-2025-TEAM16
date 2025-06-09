@@ -33,12 +33,16 @@ beforeEach(async () => {
     lastname: "UserStaff",
     username: "testuserStaff",
     password: "testpass",
-    role: "Staff",
+    role: "staff",
     department: "Software Engineering",
     email: "test@email.com",
   });
 
-  course = await Course.create({ name: COURSE_NAME });
+  course = await Course.create({
+    name: COURSE_NAME,
+    department: "Software Engineering",
+    lecturer: staff._id,
+  });
   requestType = await RequestType.create({ name: REQUEST_NAME });
 
   studentRequest = await StudentRequest.create({

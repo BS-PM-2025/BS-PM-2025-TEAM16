@@ -51,22 +51,22 @@ router.post("/", upload.array("documents"), async (req, res) => {
   try {
     const {
       student,
-      staff,
       requestType,
       course,
       description,
-      department,
       status,
       submissionDate,
     } = req.body;
 
-    if (!student || !staff || !requestType || !course) {
+    if (!student || !requestType || !course) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
     const studentData = await User.findById(student);
-    const staffData = await User.findById(staff);
     const courseData = await Course.findById(course);
+    const staff = courseData.lecturer;
+    const department = courseData.department;
+    const staffData = await User.findById(staff);
     const requestTypeData = await RequestType.findById(requestType);
 
     const documents = req.files.map((file) => ({
@@ -97,7 +97,7 @@ router.post("/", upload.array("documents"), async (req, res) => {
       service: "gmail",
       auth: {
         user: "dorin2107@gmail.com",
-        pass: "syhyigdbowmrtesa"
+        pass: "syhyigdbowmrtesa",
       },
     });
 

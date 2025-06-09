@@ -1,16 +1,21 @@
-id,username,firstname,lastname,password,role,department,email,employeeId,startYear
-201234561,yairda1,Yair,Dahan,ab125689,student,software engineering,yair@email.com,,3
-201234562,danielle2,Daniel,Levi,cd103948,student,Electrical and Electronics Engineering,daniel@email.com,,4
-201234563,mayaco3,Maya,Cohen,ef567812,student,Mechanical Engineering,maya@email.com,,2
-201234564,noape4,Noa,Peretz,gh849302,student,Civil Engineering,noa@email.com,,1
-201234565,talam5,Tal,Amar,ij334455,student,Computer Science,tal@email.com,,1
-201234566,shirami6,Shira,Mizrahi,kl712390,staff,software engineering,shira@email.com,145983762,
-201234567,omerzi7,Omer,Ziv,mn908172,staff,Electrical and Electronics Engineering,omer@email.com,209384756,
-201234568,doronel8,Doron,Elbaz,op445566,staff,Mechanical Engineering,doron@email.com,312498573,
-201234569,hilaaz9,Hila,Azoulay,qr219834,staff,Civil Engineering,hila@email.com,487561239,
-201234570,limorsh1,Limor,Shalom,st882211,staff,Computer Science,limor@email.com,598123467,
-301234571,ronbi2,Ron,Biton,uv120398,admin,software engineering,ron@email.com,623487951,
-301234572,davidro3,David,Rosenthal,wx775544,admin,Electrical and Electronics Engineering,david@email.com,845693127,
-301234573,alonka4,Alon,Kadosh,yz667788,admin,Mechanical Engineering,alon@email.com,734512689,
-301234574,veredpe5,Vered,Peri,za431256,admin,Civil Engineering,vered@email.com,956127384,
-301234575,liortz6,Lior,Tzror,zb159753,admin,Computer Science,lior@email.com,109283745,
+id,username,firstname,lastname,password,role,position,department,email,employeeId,startYear
+201234561,yairda1,Yair,Dahan,ab125689,student,,software engineering,yair@email.com,,3
+201234562,danielle2,Daniel,Levi,cd103948,student,,Electrical and Electronics Engineering,daniel@email.com,,4
+201234563,mayaco3,Maya,Cohen,ef567812,student,,Mechanical Engineering,maya@email.com,,2
+201234564,noape4,Noa,Peretz,gh849302,student,,Civil Engineering,noa@email.com,,1
+201234565,talam5,Tal,Amar,ij334455,student,,Computer Science,tal@email.com,,1
+201234566,shirami6,Shira,Mizrahi,kl712390,staff,secretary,software engineering,shira@email.com,145983762,
+201234572,amitha1,Amit,Harari,lm382947,staff,secretary,Electrical and Electronics Engineering,amit@email.com,135792468,
+201234573,shakedre2,Reut,Shaked,ny104376,staff,secretary,Mechanical Engineering,reut@email.com,274839105,
+201234574,ronico3,Roni,Cohen,cx762504,staff,secretary,Civil Engineering,roni@email.com,386421579,
+201234575,ilanba4,Ilan,Bar,vd839210,staff,secretary,Computer Science,ilan@email.com,562738491,
+201234577,lilachmo5,Lilach,Mor,ke230198,staff,lecturer,software engineering,lilach@email.com,803194627,
+201234567,omerzi7,Omer,Ziv,mn908172,staff,lecturer,Electrical and Electronics Engineering,omer@email.com,209384756,
+201234568,doronel8,Doron,Elbaz,op445566,staff,lecturer,Mechanical Engineering,doron@email.com,312498573,
+201234569,hilaaz9,Hila,Azoulay,qr219834,staff,lecturer,Civil Engineering,hila@email.com,487561239,
+201234570,limorsh1,Limor,Shalom,st882211,staff,lecturer,Computer Science,limor@email.com,598123467,
+301234571,ronbi2,Ron,Biton,uv120398,admin,,software engineering,ron@email.com,623487951,
+301234572,davidro3,David,Rosenthal,wx775544,admin,,Electrical and Electronics Engineering,david@email.com,845693127,
+301234573,alonka4,Alon,Kadosh,yz667788,admin,,Mechanical Engineering,alon@email.com,734512689,
+301234574,veredpe5,Vered,Peri,za431256,admin,,Civil Engineering,vered@email.com,956127384,
+301234575,liortz6,Lior,Tzror,zb159753,admin,,Computer Science,lior@email.com,109283745,
