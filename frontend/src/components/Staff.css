@@ -1,0 +1,354 @@
+.staff {
+  min-height: 100vh;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f9fafe, #e4efff);
+  padding: 60px 40px 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: hidden;
+  overflow-y: auto;
+  direction: rtl;
+  text-align: right;
+  position: relative;
+
+  .request-details-box {
+    button {
+      min-width: 135px;
+    }
+  }
+
+  .staff-page-container {
+    margin-inline: auto;
+    padding-inline: 24px;
+
+    max-width: 1200px;
+    margin: 80px auto 0;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40px;
+    position: relative;
+
+    .template-form-wrapper {
+      input,
+      textarea {
+        max-width: 96%;
+      }
+    }
+  }
+
+  .requests-and-chart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+  }
+
+  .requests-box {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    color: #333;
+    width: 100%;
+    border: 1px solid #e0e0e0;
+  }
+
+  .requests-box h3 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+
+  .requests-box table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .requests-box th,
+  .requests-box td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: right;
+
+    &.אושר {
+      color: green;
+    }
+
+    &.ממתין {
+      color: orange;
+    }
+    &.נדחה {
+      color: red;
+    }
+  }
+
+  .requests-box th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .requests-box td {
+    background-color: #fcfcfc;
+    color: #333;
+  }
+
+  .status-count-wrapper {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .status-count-box.pending {
+    color: #f57f17;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+
+  .status-count-box.approved {
+    color: #2e7d32;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+
+  .status-count-box.rejected {
+    color: #c62828;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+
+  .status-count-box {
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 15px;
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  .status-container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .status-select {
+    padding: 8px 16px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .status-select option {
+    background-color: #fff;
+    color: #333;
+  }
+
+  .status-label {
+    color: #2c3e50;
+    font-weight: bold;
+  }
+
+  .id-input {
+    margin-inline-start: 10px;
+    padding: 6px 10px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    max-width: 180px;
+  }
+
+  .pie-chart-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 280px;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 220px;
+    margin-bottom: 20px;
+    margin-right: auto;
+
+    path:focus {
+      outline: none;
+    }
+  }
+
+  .pie-custom-legend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    font-size: 18px;
+    font-weight: 600;
+    direction: rtl;
+    margin-top: 1px;
+  }
+
+  .pie-custom-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pie-custom-legend .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+  .pie-custom-legend .pending .dot {
+    background-color: #ffca28;
+  }
+  .pie-custom-legend .approved .dot {
+    background-color: #66bb6a;
+  }
+  .pie-custom-legend .rejected .dot {
+    background-color: #ef5350;
+  }
+
+  .request-details-box {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 25px;
+    color: #333;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    margin-bottom: 50px;
+  }
+
+  .request-details-box h3 {
+    margin-bottom: 15px;
+    font-size: 24px;
+  }
+
+  .request-details-box p,
+  .request-details-box li {
+    font-size: 16px;
+    margin: 6px 0;
+  }
+
+  .transfer-button {
+    background-color: #a0e9fa;
+    color: #ffffff;
+    border: 2px solid #a0e9fa;
+    padding: 10px 16px;
+    border-radius: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    height: 45px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .transfer-button:hover {
+    background-color: #28bae2;
+  }
+
+  .close-button,
+  .approve-button,
+  .reject-button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .close-button {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+
+  .close-button:hover {
+    background-color: #e0e0e0;
+  }
+
+  .approve-button {
+    background-color: #66bb6a;
+    color: white;
+  }
+
+  .approve-button:hover {
+    background-color: #2e7d38;
+  }
+
+  .reject-button {
+    background-color: #ff5c5c;
+    color: white;
+  }
+
+  .reject-button:hover {
+    background-color: #d63031;
+  }
+
+  .templates-box {
+    background: white;
+    padding: 10px 20px;
+    margin-top: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .templates-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .template-form-wrapper {
+    margin-top: 15px;
+  }
+}
+
+.staff-form-input {
+  width: 96%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  outline: none;
+  box-shadow: none;
+  resize: none;
+}
+
+.chart-button {
+  background-color: #fdfdfd;
+  color: #000;
+  font-weight: bold;
+  padding: 8px 18px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+}
+
+.chart-button:hover {
+  background-color: #f0f0f0;
+}
