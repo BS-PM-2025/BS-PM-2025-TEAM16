@@ -74,10 +74,17 @@ const startServer = async () => {
 
 const stopServer = async () => {
   if (server) {
-    await new Promise((resolve) => server.close(resolve));
+    await new Promise((resolve, reject) => {
+      server.close((err) => {
+        if (err) return reject(err);
+        console.log("Server closed");
+        resolve();
+      });
+    });
   }
   await mongoose.disconnect();
 };
+
 
 // הפעלת השרת אם זה הקובץ הראשי
 if (require.main === module) {
