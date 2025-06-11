@@ -188,11 +188,11 @@ const Staff = () => {
     axios
       .post(`http://localhost:3006/api/staff/requests/${selectedRequest._id}/send-message`, {
         senderId: staffId,
-        message: message, // ← שימי לב כאן לשינוי
+        message: message, 
       })
       .then(() => {
         alert("ההודעה נשלחה בהצלחה");
-        setMessage(""); // ← מנקה את השדה
+        setMessage(""); 
       })
       .catch((err) => {
         console.error("שגיאה בשליחת ההודעה:", err);
