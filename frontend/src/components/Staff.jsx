@@ -8,6 +8,8 @@ import StaffRequestDetailsBox from "./StaffRequestDetailsBox";
 import StaffRequestFilters from "./StaffRequestFilters";
 import StaffTemplateBox from "./StaffTemplateBox";
 import StaffChart from "./StaffChart";
+import NotificationBox from "./NotificationBox";
+import StaffStudentSearchBox from "./StaffStudentSearchBox";
 
 export const ID_PLACEHOLDER = "הקלד ת.ז של סטודנט";
 
@@ -215,6 +217,7 @@ const Staff = () => {
     <div className="staff" dir="rtl">
       <div className="staff-page-container">
         <Header />
+        <NotificationBox showButton={true} />
         <div className="requests-box">
           <h3>בקשות סטודנטים לטיפולך:</h3>
 
@@ -419,8 +422,11 @@ const Staff = () => {
           showTemplateBox={showTemplateBox}
           setShowTemplateBox={setShowTemplateBox}
         />
+
+        <StaffStudentSearchBox /> 
       </div>
     </div>
+    
   );
 };
 
