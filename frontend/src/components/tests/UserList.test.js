@@ -9,15 +9,20 @@ const mockUsers = [
     id: "123456789",
     firstname: "נועה",
     lastname: "כהן",
+    username: "noa",
     role: "סטודנט",
     department: "הנדסת תוכנה",
+    email: "noa@example.com",
   },
   {
     id: "987654321",
     firstname: "יוסי",
     lastname: "לוי",
+    username: "yossi",
     role: "סגל",
     department: "מדעי המחשב",
+    email: "yossi@example.com",
+    employeeId: "EMP001",
   },
 ];
 
@@ -95,4 +100,19 @@ test("מציג את כל המשתמשים כשאין סינון", async () => {
   render(<UserList />);
   expect(await screen.findByText("נועה")).toBeInTheDocument();
   expect(screen.getByText("יוסי")).toBeInTheDocument();
+});
+
+// ✅ טסט חדש – פתיחה וסגירה של שורת פרטי משתמש
+test("לחיצה על שורה פותחת וסוגרת פרטי משתמש", async () => {
+  render(<UserList />);
+  const userRow = await screen.findByText("יוסי");
+  fireEvent.click(userRow.closest("tr"));
+
+  expect(screen.getByText(/שם משתמש:/)).toBeInTheDocument();
+  expect(screen.getByText("yossi")).toBeInTheDocument();
+
+  fireEvent.click(userRow.closest("tr"));
+  await waitFor(() => {
+    expect(screen.queryByText("yossi")).not.toBeInTheDocument();
+  });
 });

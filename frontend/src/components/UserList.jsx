@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./Form.css";
 import { BaseUser, Staff, Student } from "../models/user";
+import "./UserList.css";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
@@ -11,23 +11,19 @@ export default function UserList() {
   const [filterDepartment, setFilterDepartment] = useState([]);
   const [showRoleDropdown, setShowRoleDropdown] = useState(false);
   const [showDepartmentDropdown, setShowDepartmentDropdown] = useState(false);
+  const [selectedUserIndex, setSelectedUserIndex] = useState(null);
 
   useEffect(() => {
     axios
       .get("http://localhost:3006/users/all-users")
       .then((res) => {
-        setUsers(
-          res.data.map((user) => {
-            if (user.role === "student") {
-              return new Student(user);
-            }
-            if (user.role === "staff") {
-              return new Staff(user);
-            }
-            return new BaseUser(user);
-          })
-        );
-        setFilteredUsers(res.data);
+        const mapped = res.data.map((user) => {
+          if (user.role === "student") return new Student(user);
+          if (user.role === "staff") return new Staff(user);
+          return new BaseUser(user);
+        });
+        setUsers(mapped);
+        setFilteredUsers(mapped);
       })
       .catch((err) => console.error("שגיאה בטעינת המשתמשים", err));
   }, []);
@@ -107,9 +103,7 @@ export default function UserList() {
                             if (e.target.checked) {
                               setFilterRole([...filterRole, r]);
                             } else {
-                              setFilterRole(
-                                filterRole.filter((item) => item !== r)
-                              );
+                              setFilterRole(filterRole.filter((item) => item !== r));
                             }
                           }}
                         />
@@ -141,18 +135,14 @@ export default function UserList() {
                             if (e.target.checked) {
                               setFilterDepartment([...filterDepartment, d]);
                             } else {
-                              setFilterDepartment(
-                                filterDepartment.filter((item) => item !== d)
-                              );
+                              setFilterDepartment(filterDepartment.filter((item) => item !== d));
                             }
                           }}
                         />
                         {d}
                       </label>
                     ))}
-                    <button onClick={() => setFilterDepartment([])}>
-                      איפוס
-                    </button>
+                    <button onClick={() => setFilterDepartment([])}>איפוס</button>
                   </div>
                 )}
               </div>
@@ -161,13 +151,33 @@ export default function UserList() {
         </thead>
         <tbody>
           {filteredUsers.map((u, i) => (
-            <tr key={i}>
-              <td>{u.id}</td>
-              <td>{u.firstname}</td>
-              <td>{u.lastname}</td>
-              <td>{u.role}</td>
-              <td>{u.department}</td>
-            </tr>
+            <React.Fragment key={i}>
+              <tr
+                className={`hoverable-row ${selectedUserIndex === i ? "selected" : ""}`}
+                onClick={() => setSelectedUserIndex(i === selectedUserIndex ? null : i)}
+              >
+                <td>{u.id}</td>
+                <td>{u.firstname}</td>
+                <td>{u.lastname}</td>
+                <td>{u.role}</td>
+                <td>{u.department}</td>
+              </tr>
+              {selectedUserIndex === i && (
+                <tr className="user-details-row">
+                  <td colSpan="5">
+                    <div className="user-details-card">
+                      <p><strong>שם:</strong> {u.firstname}</p>
+                      <p><strong>שם משתמש:</strong> {u.username}</p>
+                      <p><strong>שם משפחה:</strong> {u.lastname}</p>
+                      <p><strong>תפקיד:</strong> {u.role}</p>
+                      <p><strong>מחלקה:</strong> {u.department}</p>
+                      <p><strong>אימייל:</strong> {u.email}</p>
+                      {u.employeeId && <p><strong>מספר עובד:</strong> {u.employeeId}</p>}
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
           ))}
         </tbody>
       </table>

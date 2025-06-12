@@ -56,7 +56,6 @@ function StudentRequestForm() {
     const submissionDate = new Date();
     const formData = new FormData();
     formData.append("student", studentId);
-    formData.append("staff", "67f55b7034b4da2503982dc0");
     formData.append("requestType", topic);
     formData.append("course", course);
     formData.append("description", description);
@@ -81,12 +80,11 @@ function StudentRequestForm() {
         setFiles([]);
         setRequiredDocs("");
 
-        // חישוב זמן טיפול: 3 ימי עסקים קדימה
         const estimate = new Date(submissionDate);
         let added = 0;
         while (added < 3) {
           estimate.setDate(estimate.getDate() + 1);
-          if (estimate.getDay() !== 5 && estimate.getDay() !== 6) added++; // לא שישי/שבת
+          if (estimate.getDay() !== 5 && estimate.getDay() !== 6) added++;
         }
 
         setEstimatedDate(estimate);
@@ -117,8 +115,10 @@ function StudentRequestForm() {
         <form onSubmit={(e) => e.preventDefault()} className="student-form">
           <h2 className="form-title">יצירת בקשת סטודנט</h2>
 
-          <label className="form-label">בחר נושא בקשה:</label>
+          <label htmlFor="topic" className="form-label">בחר נושא בקשה:</label>
           <select
+            id="topic"
+            name="topic"
             className="form-input"
             value={topic}
             onChange={(e) => {
@@ -129,35 +129,31 @@ function StudentRequestForm() {
             }}
             required
           >
-            <option disabled value="">
-              בחר נושא...
-            </option>
+            <option disabled value="">בחר נושא...</option>
             {topics.map((t) => (
-              <option key={t._id} value={t._id}>
-                {t.name}
-              </option>
+              <option key={t._id} value={t._id}>{t.name}</option>
             ))}
           </select>
 
-          <label className="form-label">בחר קורס:</label>
+          <label htmlFor="course" className="form-label">בחר קורס:</label>
           <select
+            id="course"
+            name="course"
             className="form-input"
             value={course}
             onChange={(e) => setCourse(e.target.value)}
             required
           >
-            <option disabled value="">
-              בחר קורס...
-            </option>
+            <option disabled value="">בחר קורס...</option>
             {courses.map((c) => (
-              <option key={c._id} value={c._id}>
-                {c.name}
-              </option>
+              <option key={c._id} value={c._id}>{c.name}</option>
             ))}
           </select>
 
-          <label className="form-label">תוכן הבקשה:</label>
+          <label htmlFor="description" className="form-label">תוכן הבקשה:</label>
           <textarea
+            id="description"
+            name="description"
             className="form-input"
             rows="4"
             value={description}
@@ -165,11 +161,12 @@ function StudentRequestForm() {
             required
           />
 
-          <label className="form-label">צרף מסמכים:</label>
+          <label htmlFor="documents" className="form-label">צרף מסמכים:</label>
           <input
+            id="documents"
+            name="documents"
             className="form-input"
             type="file"
-            name="documents"
             multiple
             onChange={(e) => setFiles(e.target.files)}
           />

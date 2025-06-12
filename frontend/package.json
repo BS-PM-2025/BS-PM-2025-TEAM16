@@ -4,8 +4,6 @@
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.8.4",
     "react": "^19.0.0",
@@ -19,13 +17,19 @@
   "devDependencies": {
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
-    "babel-jest": "^29.7.0"
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "babel-jest": "^29.7.0",
+    "jest": "^27.5.1",
+    "jsdom": "^26.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "coverage": "react-scripts test --coverage --watchAll=false",
+    "test:coverage": "react-scripts test --coverage"
   },
   "eslintConfig": {
     "extends": [
@@ -44,5 +48,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/App.js",
+      "!src/header.jsx",    
+      "!src/components/Admin.jsx",
+      "!src/components/Student.jsx",
+      "!src/components/StudentMessages.jsx",
+      "!**/node_modules/**",
+      "!**/test/**"
+    ],
+    "coverageReporters": ["text", "lcov"]
   }
 }

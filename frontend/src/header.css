@@ -10,9 +10,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 8px;
+  padding: 0 12px;
   box-sizing: border-box;
   z-index: 1000;
+  background-color: white;
 }
 
 .header-logo-container {
@@ -48,4 +49,65 @@
   color: #2c3e50;
   text-align: center;
   flex-grow: 1;
+}
+
+.messages-container {
+  position: relative;
+  margin-left: 15px;
+}
+
+.messages-button {
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.messages-button:hover {
+  background-color: #584ed8;
+}
+
+.messages-dropdown {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 200px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  text-align: right;
+  z-index: 1001;
+}
+
+.message-item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.message-item:last-child {
+  border-bottom: none;
+}
+
+.system-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.system-button:hover {
+  background-color: #357ab8;
 }

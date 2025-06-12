@@ -6,11 +6,8 @@ const courseSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  lecturer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
+  lecturer: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+
   department: {
     type: String,
     required: true,

@@ -45,9 +45,9 @@ export default function EditUserRole() {
           required
         />
         <select value={role} onChange={(e) => setRole(e.target.value)}>
-          <option value="Student">סטודנט</option>
-          <option value="Staff">סגל</option>
-          <option value="Admin">מנהל</option>
+          <option value="student">סטודנט</option>
+          <option value="staff">סגל</option>
+          <option value="admin">מנהל</option>
         </select>
         <button type="submit">שמור</button>
       </form>

@@ -21,7 +21,12 @@ const studentRequestSchema = new mongoose.Schema({
     ref: 'Course',
     required: true
   },
-  
+
+  // שדות נוספים לתצוגה נוחה ודוחות
+  studentName: String,
+  studentUsername: String,
+  courseName: String,
+  requestTypeName: String,
 
   description: String,
   documents: [{
@@ -44,6 +49,22 @@ const studentRequestSchema = new mongoose.Schema({
       ref: 'User'
     },
     comment: String,
+    date: { type: Date, default: Date.now }
+  }],
+  
+  // שדות ערעור
+  appeal: {
+    type: String,
+    default: ""
+  },
+  appealStatus: {
+    type: String,
+    enum: ["לא נשלח", "בטיפול", "אושר", "נדחה"],
+    default: "לא נשלח"
+  },
+  messages: [{
+    sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    message: String,
     date: { type: Date, default: Date.now }
   }]
 });
