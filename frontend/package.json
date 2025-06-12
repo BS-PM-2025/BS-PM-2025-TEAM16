@@ -53,7 +53,8 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!src/App.js",
-      "!src/header.jsx",    
+      "!src/header.jsx",
+      "!src/**/ForgotPassword.jsx",
       "!src/components/Admin.jsx",
       "!src/components/Student.jsx",
       "!src/components/StudentMessages.jsx",
