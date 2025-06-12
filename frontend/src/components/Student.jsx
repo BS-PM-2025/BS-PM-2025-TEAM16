@@ -6,6 +6,7 @@ import StudentRequestForm from "../components/StudentRequestForm";
 import StudentStatus from "./StudentStatus";
 import StudentRequestsTable from "./StudentRequestsTable";
 import ChatBotBox from "./ChatBotBox";
+import NotificationBox from "./NotificationBox";
 
 const Student = () => {
   const [userData, setUserData] = useState(null);
@@ -28,6 +29,7 @@ const Student = () => {
     <div className="welcome">
       <div className="welcome-page-container">
         <Header />
+        <NotificationBox showButton={true} />
         <div className="welcome-header-box">
           {userData && (
             <>

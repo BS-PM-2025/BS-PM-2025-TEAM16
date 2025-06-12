@@ -10,6 +10,7 @@ const User = require("../models/User");
 const Course = require("../models/Course");
 const RequestType = require("../models/RequestType");
 
+
 const {
   getRequestsForStaff,
   approveRequest,
@@ -18,9 +19,12 @@ const {
   getRequestsByStudentId,
   transferRequest,
   getRequestsForStudent,
+  getStaleRequests,
+  sendMessageToStudent,
+  getMessagesForStudent,
 } = require("../controllers/studentRequestsController");
 
-// הגנה על מסלולים שמיועדים לסגל בלבד
+
 const isStaff = (req, res, next) => {
   if (req.headers["user-role"] === "Staff") {
     next();
@@ -47,6 +51,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
 router.post("/", upload.array("documents"), async (req, res) => {
   try {
     const {
@@ -64,10 +69,14 @@ router.post("/", upload.array("documents"), async (req, res) => {
 
     const studentData = await User.findById(student);
     const courseData = await Course.findById(course);
-    const staff = courseData.lecturer;
-    const department = courseData.department;
-    const staffData = await User.findById(staff);
+    const staff = courseData?.lecturer;
+    const department = courseData?.department;
+    const staffData = staff ? await User.findById(staff) : null;
     const requestTypeData = await RequestType.findById(requestType);
+
+    if (!studentData || !courseData || !staffData || !requestTypeData) {
+      return res.status(400).json({ message: "Invalid student, course, staff or request type data" });
+    }
 
     const documents = req.files.map((file) => ({
       documentName: file.originalname,
@@ -97,7 +106,7 @@ router.post("/", upload.array("documents"), async (req, res) => {
       service: "gmail",
       auth: {
         user: "dorin2107@gmail.com",
-        pass: "syhyigdbowmrtesa",
+        pass: "syhyigdbowmrtesa", 
       },
     });
 
@@ -128,6 +137,8 @@ router.post("/", upload.array("documents"), async (req, res) => {
   }
 });
 
+
+
 router.get("/", isStaff, getRequestsForStaff);
 
 router.get("/department/:departmentName", async (req, res) => {
@@ -141,9 +152,7 @@ router.get("/department/:departmentName", async (req, res) => {
 
     res.json(requests);
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error loading requests for the department" });
+    res.status(500).json({ message: "Error loading requests for the department" });
   }
 });
 
@@ -171,11 +180,50 @@ router.get("/department-requests", async (req, res) => {
   }
 });
 
+// שליחת ערעור על ידי סטודנט
+router.put("/:id/appeal", async (req, res) => {
+  try {
+    const request = await StudentRequest.findById(req.params.id);
+    if (!request) return res.status(404).json({ message: "לא נמצאה בקשה" });
+
+    request.appeal = req.body.appeal;
+    request.appealStatus = "בטיפול";
+    await request.save();
+
+    res.json({ message: "הערעור נשלח בהצלחה" });
+  } catch (err) {
+    res.status(500).json({ message: "שגיאת שרת", error: err.message });
+  }
+});
+
+// החלטת סגל בנוגע לערעור
+router.put("/:id/appeal-decision", async (req, res) => {
+  try {
+    const request = await StudentRequest.findById(req.params.id);
+    if (!request) return res.status(404).json({ message: "לא נמצאה בקשה" });
+
+    request.status = req.body.status;
+    request.appealStatus = req.body.appealStatus;
+    await request.save();
+
+    res.json({ message: "ערעור טופל בהצלחה" });
+  } catch (err) {
+    res.status(500).json({ message: "שגיאת שרת", error: err.message });
+  }
+});
+
+
 router.put("/approve/:id", approveRequest);
 router.put("/reject/:id", rejectRequest);
 router.put("/transfer/:id", transferRequest);
 router.get("/by-status-and-staff", getRequestsForStaffByStatus);
 router.get("/by-student-id", getRequestsByStudentId);
 router.get("/requests", getRequestsForStudent);
+router.get("/stale", getStaleRequests);
+router.post("/:id/send-message", sendMessageToStudent);
+router.get("/messages/:studentId", getMessagesForStudent);
+
+
+
 
 module.exports = router;

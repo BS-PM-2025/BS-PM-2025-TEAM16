@@ -19,3 +19,4 @@ id,username,firstname,lastname,password,role,position,department,email,employeeI
 301234573,alonka4,Alon,Kadosh,yz667788,admin,,Mechanical Engineering,alon@email.com,734512689,
 301234574,veredpe5,Vered,Peri,za431256,admin,,Civil Engineering,vered@email.com,956127384,
 301234575,liortz6,Lior,Tzror,zb159753,admin,,Computer Science,lior@email.com,109283745,
+236521236,kerenk,Keren,Kadosh,123456,staff,software engineering,lecturer,keren@email.com,214563254,

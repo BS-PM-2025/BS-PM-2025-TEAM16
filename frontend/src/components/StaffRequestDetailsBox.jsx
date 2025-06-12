@@ -72,35 +72,6 @@ const StaffRequestDetailsBox = ({
         />
       </div>
 
-      <div style={{ marginTop: "1em" }}>
-        <label className="form-label">
-          <strong>העבר בקשה לאיש סגל אחר:</strong>
-        </label>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            marginTop: "5px",
-          }}
-        >
-          <select
-            className="staff-form-input"
-            value={selectedStaffId}
-            onChange={(e) => setSelectedStaffId(e.target.value)}
-          >
-            <option value="">בחר איש סגל</option>
-            {staffList.map((staff) => (
-              <option key={staff._id} value={staff._id}>
-                {staff.firstname} {staff.lastname}
-              </option>
-            ))}
-          </select>
-          <button className="transfer-button" onClick={handleTransfer}>
-            העבר בקשה
-          </button>
-        </div>
-      </div>
 
       <div style={{ marginTop: "1.5em", display: "flex", gap: "10px" }}>
         <button
