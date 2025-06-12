@@ -36,7 +36,7 @@ pipeline {
                     script {
                         def hasTestScript = sh(script: "grep -q '\"test\"' package.json && echo yes || echo no", returnStdout: true).trim()
                         if (hasTestScript == "yes") {
-                            sh 'npm test'
+                            sh 'npm test -- --coverage'
                         } else {
                             echo 'Test stage skipped, no test script found in package.json'
                         }
@@ -56,7 +56,19 @@ pipeline {
         stage('Run Frontend Tests') { 
             steps {
                 dir('frontend') { 
-                    sh 'npm test -- --ci --verbose --detectOpenHandles'
+                    sh 'npm test -- --ci --verbose --detectOpenHandles --coverage'
+                }
+            }
+        }
+           stage('Archive Coverage Reports') { 
+            steps {
+                script {
+                    dir('backend') {
+                        archiveArtifacts artifacts: 'coverage/**', fingerprint: true
+                    }
+                    dir('frontend') {
+                        archiveArtifacts artifacts: 'coverage/**', fingerprint: true
+                    }
                 }
             }
         }
