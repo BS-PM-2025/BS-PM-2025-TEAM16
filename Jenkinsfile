@@ -60,14 +60,15 @@ pipeline {
                 }
             }
         }
-           stage('Archive Coverage Reports') { 
+
+              stage('Archive Coverage Reports') { 
             steps {
                 script {
                     dir('backend') {
-                        archiveArtifacts artifacts: 'coverage/**', fingerprint: true
+                        archiveArtifacts artifacts: 'coverage/**', fingerprint: true 
                     }
                     dir('frontend') {
-                        archiveArtifacts artifacts: 'coverage/**', fingerprint: true
+                        archiveArtifacts artifacts: 'coverage/**', fingerprint: true 
                     }
                 }
             }
