@@ -45,14 +45,15 @@ app.get("/api/topics", async (req, res) => {
 // שליפת קורסים (לסטודנטים)
 app.get("/api/courses", async (req, res) => {
   try {
-    const courses = await Course.find({});
+    const { department } = req.query;
+    const filter = department ? { department } : {};
+    const courses = await Course.find(filter);
     res.json(courses);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "שגיאה בשליפת קורסים", error: error.message });
+    res.status(500).json({ message: "שגיאה בשליפת קורסים", error: error.message });
   }
 });
+
 
 // ברירת מחדל
 app.get("/", (req, res) => {
