@@ -1,0 +1,174 @@
+/* רקע כללי */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #f6f9fc, #ddeaff);
+}
+
+/* קונטיינר הטופס כולו */
+.userlist-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* כותרת */
+.userlist-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 26px;
+  color: #333;
+}
+
+/* שורת החיפוש והכפתור */
+.filter-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.filter-row input {
+  width: 60%;
+  max-width: 400px;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: right;
+}
+
+.reset-btn {
+  background-color: #2d74da;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.reset-btn:hover {
+  background-color: #1c5ac4;
+}
+
+/* טבלה */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  direction: rtl;
+  font-size: 1.1em;
+  table-layout: auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px 16px;
+  text-align: center;
+  vertical-align: middle;
+  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+th {
+  background-color: #f1f4f8;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9fbff;
+}
+
+tr:hover {
+  background-color: #eef3ff;
+}
+
+/* כפתורי סינון לפי עמודה */
+.dropdown-container {
+  display: inline-block;
+  position: relative;
+  margin-right: 6px;
+}
+
+.filter-icon {
+  cursor: pointer;
+  font-size: 12px;
+  color: #555;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 12px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  border-radius: 8px;
+}
+
+.dropdown label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95em;
+}
+
+.dropdown button {
+  margin-top: 10px;
+  width: 100%;
+  background-color: #6a1b9a;
+  color: white;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dropdown button:hover {
+  background-color: #4a148c;
+}
+
+/* תצוגת פרטי משתמש מורחבת */
+.user-details-row td {
+  padding: 20px;
+  background-color: #f0f7ff;
+  border-top: none;
+}
+
+.user-details-card {
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+  text-align: right;
+  line-height: 1.7;
+}
+
+.user-details-card p {
+  margin: 6px 0;
+  font-size: 16px;
+}
+.form-container {
+  width: 70%;
+  max-width: 100%;
+  padding: 30px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  
+}

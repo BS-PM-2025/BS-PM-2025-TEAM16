@@ -13,6 +13,8 @@ import UserList from "./components/UserList";
 import StudentDetails from "./components/StudentDetails";
 import DepartmentRequests from "./components/DepartmentRequests";
 import MessagesPage from "./components/MessagesPage";
+import DeleteUser from "./components/DeleteUser";
+import SendNotification from "./components/SendNotification";
 
 
 
@@ -44,7 +46,7 @@ const App = () => {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute allowedRole="Admin">
+            <ProtectedRoute allowedRole="admin">
               <Admin />
             </ProtectedRoute>
           }
@@ -53,7 +55,7 @@ const App = () => {
         <Route
           path="/admin/add-user"
           element={
-            <ProtectedRoute allowedRole="Admin">
+            <ProtectedRoute allowedRole="admin">
               <AddUser />
             </ProtectedRoute>
           }
@@ -62,7 +64,7 @@ const App = () => {
         <Route
           path="/admin/edit-role"
           element={
-            <ProtectedRoute allowedRole="Admin">
+            <ProtectedRoute allowedRole="admin">
               <EditUserRole />
             </ProtectedRoute>
           }
@@ -71,8 +73,24 @@ const App = () => {
         <Route
           path="/admin/user-list"
           element={
-            <ProtectedRoute allowedRole="Admin">
+            <ProtectedRoute allowedRole="admin">
               <UserList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/delete-user"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <DeleteUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/send-message"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <SendNotification />
             </ProtectedRoute>
           }
         />
@@ -80,7 +98,7 @@ const App = () => {
         <Route
           path="/admin/student-details"
           element={
-            <ProtectedRoute allowedRole="Admin">
+            <ProtectedRoute allowedRole="admin">
               <StudentDetails />
             </ProtectedRoute>
           }

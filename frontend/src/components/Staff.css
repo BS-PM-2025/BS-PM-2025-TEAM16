@@ -76,6 +76,8 @@
     border: 1px solid #ddd;
     padding: 10px;
     text-align: right;
+    white-space: normal;
+    word-break: break-word;
 
     &.אושר {
       color: green;

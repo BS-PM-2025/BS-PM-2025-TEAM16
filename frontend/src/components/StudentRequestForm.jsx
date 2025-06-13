@@ -25,23 +25,31 @@ function StudentRequestForm() {
   const [estimatedDate, setEstimatedDate] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const topicRes = await fetch(`${API_BASE}/api/topics`);
-        const topicData = await topicRes.json();
-        setTopics(topicData);
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const topicRes = await fetch(`${API_BASE}/api/topics`);
+      const topicData = await topicRes.json();
+      setTopics(topicData);
 
-        const courseRes = await fetch(`${API_BASE}/api/courses`);
-        const courseData = await courseRes.json();
-        setCourses(courseData);
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-      }
-    };
+      const stored = localStorage.getItem("projectFS");
+      if (!stored) return alert("לא נמצא משתמש מחובר");
 
-    fetchData();
-  }, []);
+      const parsed = JSON.parse(stored);
+      const department = parsed?.user?.department;
+      if (!department) return alert("לא נמצאה מחלקת סטודנט");
+
+      const courseRes = await fetch(`${API_BASE}/api/courses?department=${encodeURIComponent(department)}`);
+      const courseData = await courseRes.json();
+      setCourses(courseData);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
+
+  fetchData();
+}, []);
+
 
   const handleStart = () => setShowForm(true);
 
